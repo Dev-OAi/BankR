@@ -61,24 +61,6 @@ function ColumnFilterSortPopover({
         };
     }, []);
 
-    // Theme-dependent classes for the popover
-    const themeClasses = {
-        popoverBg: currentTheme === 'light' ? 'bg-white' : 'bg-[#161B22]', // GitHub dark card bg
-        popoverRing: currentTheme === 'light' ? 'ring-black' : 'ring-gray-700', // Subtle ring
-        text: currentTheme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]', // Light grey text
-        hoverBg: currentTheme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-[#30363D]', // GitHub dark hover
-        inputBorder: currentTheme === 'light' ? 'border-gray-300' : 'border-[#30363D]', // Darker input border
-        inputBg: currentTheme === 'light' ? 'bg-white' : 'bg-[#0D1117]', // Very dark input bg
-        inputText: currentTheme === 'light' ? 'text-gray-900' : 'text-[#C9D1D9]', // Light text for inputs
-        optionHover: currentTheme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-[#30363D]', // Darker for option hover
-        clearButtonText: currentTheme === 'light' ? 'text-red-600' : 'text-red-400',
-        clearButtonHoverBg: currentTheme === 'light' ? 'hover:bg-red-50' : 'hover:bg-red-800', // Darker red hover
-        sortArrow: currentTheme === 'light' ? 'text-indigo-600' : 'text-[#58A6FF]', // GitHub blue for arrow
-        columnHeaderBg: currentTheme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-[#30363D]', // GitHub dark hover
-        dropdownIndicator: currentTheme === 'light' ? 'text-gray-400' : 'text-[#8B949E]' // Muted grey for indicator
-    };
-
-
     return (
         <div className="relative inline-block text-left w-full h-full">
             <button
@@ -89,10 +71,10 @@ function ColumnFilterSortPopover({
             >
                 <span className="flex-grow">{children}</span>
                 {sortBy === columnName && (
-                    <span className={`sort-arrow ml-2 ${sortOrder === 'asc' ? 'asc' : 'desc'} ${themeClasses.sortArrow}`}></span>
+                    <span className={`sort-arrow ml-2 ${sortOrder === 'asc' ? 'asc' : 'desc'} ${currentTheme === 'light' ? 'text-indigo-600' : 'text-[#58A6FF]'}`}></span>
                 )}
                 {/* Dropdown indicator */}
-                <svg className={`-mr-1 ml-1 h-5 w-5 ${themeClasses.dropdownIndicator}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <svg className={`-mr-1 ml-1 h-5 w-5 ${currentTheme === 'light' ? 'text-gray-400' : 'text-[#8B949E]'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
             </button>
@@ -100,13 +82,13 @@ function ColumnFilterSortPopover({
             {isOpen && (
                 <div
                     ref={popoverRef}
-                    className={`origin-top-right absolute left-0 mt-2 w-48 rounded-md shadow-lg ${themeClasses.popoverBg} ring-1 ${themeClasses.popoverRing} ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-10`}
+                    className={`origin-top-right absolute left-0 mt-2 w-48 rounded-md shadow-lg ring-1 ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-10 ${currentTheme === 'light' ? 'bg-white ring-black' : 'bg-[#161B22] ring-gray-700'}`}
                     style={{ minWidth: '160px' }} // Adjust width as needed
                 >
                     <div className="py-1 p-2">
                         {inputType === 'select' ? (
                             <select
-                                className={`block w-full rounded-md ${themeClasses.inputBorder} shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-1 text-sm mb-2 ${themeClasses.inputBg} ${themeClasses.inputText}`}
+                                className={`block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-1 text-sm mb-2 ${currentTheme === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9]'}`}
                                 value={filterValue}
                                 onChange={handleFilterChange}
                             >
@@ -118,47 +100,47 @@ function ColumnFilterSortPopover({
                         ) : (
                             <input
                                 type={inputType}
-                                className={`block w-full rounded-md ${themeClasses.inputBorder} shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-1 text-sm mb-2 ${themeClasses.inputBg} ${themeClasses.inputText}`}
+                                className={`block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-1 text-sm mb-2 ${currentTheme === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9]'}`}
                                 placeholder={`Filter ${placeholder}`}
                                 value={filterValue}
                                 onChange={handleFilterChange}
                             />
                         )}
                         <hr className={`my-2 ${currentTheme === 'light' ? 'border-gray-200' : 'border-[#30363D]'}`} /> {/* Darker divider */}
-                        <span className={`block px-2 py-1 text-xs ${currentTheme === 'light' ? 'text-gray-500' : 'text-[#8B949E]'} font-semibold uppercase`}>Sort</span>
+                        <span className={`block px-2 py-1 text-xs font-semibold uppercase ${currentTheme === 'light' ? 'text-gray-500' : 'text-[#8B949E]'}`}>Sort</span>
                         {/* Sort options specific to column */}
                         {columnName === 'bankName' && (
                             <>
-                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>A-Z</button>
-                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Z-A</button>
+                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>A-Z</button>
+                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Z-A</button>
                             </>
                         )}
                         {columnName === 'apy' && (
                             <>
-                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Highest</button>
-                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Lowest</button>
+                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Highest</button>
+                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Lowest</button>
                             </>
                         )}
                         {columnName === 'term' && (
                             <>
-                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Shortest</button>
-                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Longest</button>
+                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Shortest</button>
+                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Longest</button>
                             </>
                         )}
                         {columnName === 'minDeposit' && (
                             <>
-                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Highest</button>
-                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Lowest</button>
+                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Highest</button>
+                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Lowest</button>
                             </>
                         )}
                         {columnName === 'validAsOf' && (
                             <>
-                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Newest</button>
-                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.text} ${themeClasses.optionHover} rounded-md`}>Oldest</button>
+                                <button onClick={() => handleSortOptionClick('desc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Newest</button>
+                                <button onClick={() => handleSortOptionClick('asc')} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-gray-700 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'}`}>Oldest</button>
                             </>
                         )}
                         <hr className={`my-2 ${currentTheme === 'light' ? 'border-gray-200' : 'border-[#30363D]'}`} /> {/* Darker divider */}
-                        <button onClick={handleClearFilter} className={`block w-full text-left px-2 py-1 text-sm ${themeClasses.clearButtonText} ${themeClasses.clearButtonHoverBg} rounded-md`}>Clear</button>
+                        <button onClick={handleClearFilter} className={`block w-full text-left px-2 py-1 text-sm rounded-md ${currentTheme === 'light' ? 'text-red-600 hover:bg-red-50' : 'text-red-400 hover:bg-red-800'}`}>Clear</button>
                     </div>
                 </div>
             )}
@@ -313,7 +295,8 @@ export default function App() {
                                      term = `${minVal / 12}-${maxVal / 12} years`;
                                 } else if (minVal === 0 && maxVal > 0) {
                                      term = `up to ${maxVal} months`;
-                                } else {
+                                }
+                                else {
                                     term = `${minVal}-${maxVal} months`;
                                 }
                             }
