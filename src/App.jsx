@@ -567,49 +567,8 @@ export default function App() {
     }, [filteredCdOffers]);
 
 
-    const themeColors = {
-        background: theme === 'light' ? 'bg-gray-100' : 'bg-[#0D1117]', // Very dark black
-        headerText: theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]', // Light grey
-        paragraphText: theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]', // Muted grey
-        cardBg: theme === 'light' ? 'bg-white' : 'bg-[#161B22]', // Slightly lighter black/grey
-        cardBorder: theme === 'light' ? 'border-gray-200' : 'border-[#30363D]', // Darker border
-        cardHoverBg: theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-[#30363D]', // Subtle hover on cards
-        cardTitle: theme === 'light' ? 'text-indigo-700' : 'text-[#58A6FF]', // GitHub blue
-        cardText: theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]', // Light grey for card content
-        cardItalicText: theme === 'light' ? 'text-gray-500' : 'text-[#8B949E]', // Muted grey italic
-        sectionBg: theme === 'light' ? 'bg-white' : 'bg-[#161B22]', // Section background matching card
-        sectionShadow: theme === 'light' ? 'shadow-md' : 'shadow-lg shadow-gray-900', // Deeper shadow for dark
-        sectionTitle: theme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]', // Section title matching header
-        label: theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]', // Label text
-        inputBg: theme === 'light' ? 'bg-white' : 'bg-[#0D1117]', // Input background matching overall bg
-        inputBorder: theme === 'light' ? 'border-gray-300' : 'border-[#30363D]', // Input border
-        inputText: theme === 'light' ? 'text-gray-900' : 'text-[#C9D1D9]', // Input text
-        placeholderText: theme === 'light' ? 'placeholder-gray-400' : 'placeholder-[#8B949E]', // Placeholder
-        filterApplyButtonBg: theme === 'light' ? 'bg-indigo-600' : 'bg-[#21262D]', // Muted indigo button
-        filterApplyButtonHover: theme === 'light' ? 'hover:bg-indigo-700' : 'hover:bg-[#30363D]', // Muted indigo hover
-        loaderBorderTop: theme === 'light' ? 'border-t-blue-500' : 'border-t-[#58A6FF]', // Blue loader
-        errorText: theme === 'light' ? 'text-red-500' : 'text-red-400', // Red error
-        tableHeadBg: theme === 'light' ? 'bg-gray-50' : 'bg-[#0D1117]', // Table header matching overall bg
-        tableHeaderText: theme === 'light' ? 'text-gray-500' : 'text-[#8B949E]', // Table header text
-        tableRowBg: theme === 'light' ? 'bg-white' : 'bg-[#161B22]', // Table row matching card
-        tableRowHoverBg: theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-[#30363D]', // Table row hover
-        tableCellText: theme === 'light' ? 'text-gray-900' : 'text-[#C9D1D9]', // Table cell text
-        tableCellSubText: theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]', // Table cell sub-text
-        themeToggleButtonBg: theme === 'light' ? 'bg-gray-200' : 'bg-[#21262D]', // Toggle button
-        themeToggleButtonText: theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]',
-        themeToggleButtonHover: theme === 'light' ? 'hover:bg-gray-300' : 'hover:bg-[#30363D]', // Toggle button hover
-        sidebarBg: theme === 'light' ? 'bg-gray-800' : 'bg-[#0D1117]', // Sidebar matching overall bg
-        sidebarText: theme === 'light' ? 'text-white' : 'text-[#C9D1D9]',
-        sidebarActiveBg: theme === 'light' ? 'bg-indigo-700' : 'bg-[#21262D]', // Active sidebar item
-        sidebarHoverBg: theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]', // Sidebar item hover
-        sidebarCloseButtonHover: theme === 'light' ? 'hover:text-gray-300' : 'hover:text-[#8B949E]', // Close button hover
-        overlayBg: theme === 'light' ? 'bg-black' : 'bg-black',
-        overlayOpacity: 'opacity-50',
-    };
-
-
     return (
-        <div className={`min-h-screen font-sans relative ${themeColors.background}`}>
+        <div className={`min-h-screen font-sans relative ${theme === 'light' ? 'bg-gray-100' : 'bg-[#0D1117]'}`}>
             <style>
                 {`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -662,7 +621,7 @@ export default function App() {
             <button
                 onClick={toggleTheme}
                 className={`fixed top-4 right-4 z-50 p-2 rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-300
-                    ${themeColors.themeToggleButtonBg} ${themeColors.themeToggleButtonText} ${themeColors.themeToggleButtonHover} ${theme === 'light' ? 'focus:ring-gray-300' : 'focus:ring-[#58A6FF]'}`}
+                    ${theme === 'light' ? 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-300' : 'bg-[#21262D] text-[#C9D1D9] hover:bg-[#30363D] focus:ring-[#58A6FF]'}`}
             >
                 {theme === 'light' ? (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -678,13 +637,13 @@ export default function App() {
 
             {/* Sidebar Menu */}
             <div
-                className={`fixed top-0 left-0 h-full w-64 ${themeColors.sidebarBg} ${themeColors.sidebarText} transform transition-transform duration-300 ease-in-out z-40 p-4 flex flex-col ${
+                className={`fixed top-0 left-0 h-full w-64 transform transition-transform duration-300 ease-in-out z-40 p-4 flex flex-col ${
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
+                } ${theme === 'light' ? 'bg-gray-800 text-white' : 'bg-[#0D1117] text-[#C9D1D9]'}`}
             >
                 <button
                     onClick={() => setIsSidebarOpen(false)}
-                    className={`self-end p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${themeColors.sidebarText} ${themeColors.sidebarCloseButtonHover} ${theme === 'light' ? 'focus:ring-gray-600' : 'focus:ring-[#58A6FF]'}`}
+                    className={`self-end p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${theme === 'light' ? 'text-white hover:text-gray-300 focus:ring-gray-600' : 'text-[#C9D1D9] hover:text-[#8B949E] focus:ring-[#58A6FF]'}`}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -694,7 +653,7 @@ export default function App() {
                     <button
                         onClick={() => { setCurrentView('card'); setIsSidebarOpen(false); }}
                         className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${
-                            currentView === 'card' ? themeColors.sidebarActiveBg : themeColors.sidebarHoverBg
+                            currentView === 'card' ? (theme === 'light' ? 'bg-indigo-700' : 'bg-[#21262D]') : (theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]')
                         }`}
                     >
                         Card View
@@ -702,14 +661,14 @@ export default function App() {
                     <button
                         onClick={() => { setCurrentView('table'); setIsSidebarOpen(false); }}
                         className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${
-                            currentView === 'table' ? themeColors.sidebarActiveBg : themeColors.sidebarHoverBg
+                            currentView === 'table' ? (theme === 'light' ? 'bg-indigo-700' : 'bg-[#21262D]') : (theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]')
                         }`}
                     >
                         Table View
                     </button>
                     <button
                         onClick={() => { exportTableToCsv(); setIsSidebarOpen(false); }}
-                        className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${themeColors.sidebarHoverBg}`}
+                        className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]'}`}
                     >
                         Export Table to CSV
                     </button>
@@ -719,7 +678,7 @@ export default function App() {
             {/* Overlay for when sidebar is open */}
             {isSidebarOpen && (
                 <div
-                    className={`fixed inset-0 ${themeColors.overlayBg} ${themeColors.overlayOpacity} z-30`}
+                    className={`fixed inset-0 bg-black opacity-50 z-30`}
                     onClick={() => setIsSidebarOpen(false)}
                 ></div>
             )}
@@ -731,16 +690,16 @@ export default function App() {
                 }`}
             >
                 <header className="w-full max-w-4xl text-center mb-8 pt-4 md:pt-0">
-                    <h1 className={`text-4xl font-bold mb-2 ${themeColors.headerText}`}>CD Rate Finder</h1>
-                    <p className={`text-lg ${themeColors.paragraphText}`}>Find the best Certificate of Deposit rates</p>
+                    <h1 className={`text-4xl font-bold mb-2 ${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>CD Rate Finder</h1>
+                    <p className={`text-lg ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Find the best Certificate of Deposit rates</p>
                 </header>
 
                 {currentView === 'card' && (
-                    <section className={`w-full max-w-4xl ${themeColors.sectionBg} p-6 rounded-lg ${themeColors.sectionShadow} relative`}>
-                        <h2 className={`text-2xl font-semibold mb-4 ${themeColors.sectionTitle}`}>Available CD Offers (Card View)</h2>
+                    <section className={`w-full max-w-4xl p-6 rounded-lg relative ${theme === 'light' ? 'bg-white shadow-md' : 'bg-[#161B22] shadow-lg shadow-gray-900'}`}>
+                        <h2 className={`text-2xl font-semibold mb-4 ${theme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]'}`}>Available CD Offers (Card View)</h2>
                         
                         <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
-                            <p className={`text-xs ${themeColors.paragraphText} mr-2`}>Updated: {lastUpdatedDate}</p>
+                            <p className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'} mr-2`}>Updated: {lastUpdatedDate}</p>
                             <button
                                 ref={viewButtonRef}
                                 onClick={() => setIsViewOptionsOpen(!isViewOptionsOpen)}
@@ -755,18 +714,18 @@ export default function App() {
                             {isViewOptionsOpen && (
                                 <div
                                     ref={viewOptionsRef}
-                                    className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ${themeColors.cardBg} ring-1 ${themeColors.cardBorder} ring-opacity-5 focus:outline-none z-10`}
+                                    className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ring-1 ring-opacity-5 focus:outline-none z-10 ${theme === 'light' ? 'bg-white border-gray-200' : 'bg-[#161B22] border-[#30363D]'}`}
                                 >
                                     <div className="py-1">
                                         <button
                                             onClick={() => handleViewChange('card')}
-                                            className={`block w-full text-left px-4 py-2 text-sm ${themeColors.cardText} ${themeColors.cardHoverBg} ${currentView === 'card' ? 'font-bold' : ''}`}
+                                            className={`block w-full text-left px-4 py-2 text-sm ${theme === 'light' ? 'text-gray-800 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'} ${currentView === 'card' ? 'font-bold' : ''}`}
                                         >
                                             Card View
                                         </button>
                                         <button
                                             onClick={() => handleViewChange('table')}
-                                            className={`block w-full text-left px-4 py-2 text-sm ${themeColors.cardText} ${themeColors.cardHoverBg} ${currentView === 'table' ? 'font-bold' : ''}`}
+                                            className={`block w-full text-left px-4 py-2 text-sm ${theme === 'light' ? 'text-gray-800 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'} ${currentView === 'table' ? 'font-bold' : ''}`}
                                         >
                                             Table View
                                         </button>
@@ -777,10 +736,10 @@ export default function App() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label htmlFor="bankNameFilterCard" className={`block text-sm font-medium ${themeColors.label}`}>Bank Name</label>
+                                <label htmlFor="bankNameFilterCard" className={`block text-sm font-medium ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Bank Name</label>
                                 <select
                                     id="bankNameFilterCard"
-                                    className={`mt-1 block w-full rounded-md ${themeColors.inputBorder} ${themeColors.sectionShadow} focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity50 p-2 text-sm ${themeColors.inputBg} ${themeColors.inputText}`}
+                                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity50 p-2 text-sm ${theme === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9]'}`}
                                     value={bankNameFilter}
                                     onChange={(e) => setBankNameFilter(e.target.value)}
                                 >
@@ -791,21 +750,21 @@ export default function App() {
                                 </select>
                             </div>
                             <div>
-                                <label htmlFor="apyFilterCard" className={`block text-sm font-medium ${themeColors.label}`}>Min. APY (%)</label>
+                                <label htmlFor="apyFilterCard" className={`block text-sm font-medium ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Min. APY (%)</label>
                                 <input
                                     type="number"
                                     id="apyFilterCard"
-                                    className={`mt-1 block w-full rounded-md ${themeColors.inputBorder} ${themeColors.sectionShadow} focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${themeColors.inputBg} ${themeColors.inputText} ${themeColors.placeholderText}`}
+                                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${theme === 'light' ? 'border-gray-300 bg-white text-gray-900 placeholder-gray-400' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9] placeholder-[#8B949E]'}`}
                                     placeholder="e.g., 4.0"
                                     value={apyFilter}
                                     onChange={(e) => setApyFilter(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <label htmlFor="termFilterCard" className={`block text-sm font-medium ${themeColors.label}`}>Term</label>
+                                <label htmlFor="termFilterCard" className={`block text-sm font-medium ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Term</label>
                                 <select
                                     id="termFilterCard"
-                                    className={`mt-1 block w-full rounded-md ${themeColors.inputBorder} ${themeColors.sectionShadow} focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${themeColors.inputBg} ${themeColors.inputText}`}
+                                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${theme === 'light' ? 'border-gray-300 bg-white text-gray-900' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9]'}`}
                                     value={termFilter}
                                     onChange={(e) => setTermFilter(e.target.value)}
                                 >
@@ -816,61 +775,61 @@ export default function App() {
                                 </select>
                             </div>
                             <div>
-                                <label htmlFor="depositAmountFilterCard" className={`block text-sm font-medium ${themeColors.label}`}>Max Deposit Amount</label>
+                                <label htmlFor="depositAmountFilterCard" className={`block text-sm font-medium ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Max Deposit Amount</label>
                                 <input
                                     type="number"
                                     id="depositAmountFilterCard"
-                                    className={`mt-1 block w-full rounded-md ${themeColors.inputBorder} ${themeColors.sectionShadow} focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${themeColors.inputBg} ${themeColors.inputText} ${themeColors.placeholderText}`}
+                                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${theme === 'light' ? 'border-gray-300 bg-white text-gray-900 placeholder-gray-400' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9] placeholder-[#8B949E]'}`}
                                     placeholder="e.g., 10000"
                                     value={depositAmountFilter}
                                     onChange={(e) => setDepositAmountFilter(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <label htmlFor="validAsOfFilterCard" className={`block text-sm font-medium ${themeColors.label}`}>Valid As Of (date contains)</label>
+                                <label htmlFor="validAsOfFilterCard" className={`block text-sm font-medium ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Valid As Of (date contains)</label>
                                 <input
                                     type="text"
                                     id="validAsOfFilterCard"
-                                    className={`mt-1 block w-full rounded-md ${themeColors.inputBorder} ${themeColors.sectionShadow} focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${themeColors.inputBg} ${themeColors.inputText} ${themeColors.placeholderText}`}
+                                    className={`mt-1 block w-full rounded-md shadow-sm focus:border-[#58A6FF] focus:ring focus:ring-[#58A6FF] focus:ring-opacity-50 p-2 text-sm ${theme === 'light' ? 'border-gray-300 bg-white text-gray-900 placeholder-gray-400' : 'border-[#30363D] bg-[#0D1117] text-[#C9D1D9] placeholder-[#8B949E]'}`}
                                     placeholder="e.g., 6/29/2025"
                                     value={validAsOfFilter}
                                     onChange={(e) => setValidAsOfFilter(e.target.value)}
                                 />
                             </div>
                         </div>
-                        <p className={`text-sm mt-4 text-center ${themeColors.paragraphText}`}>
+                        <p className={`text-sm mt-4 text-center ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>
                             Filters are applied locally after initial data load.
                         </p>
                         {loading && visibleOffers.length === 0 && (
                             <div className="flex justify-center items-center mt-6">
                                 <div className={`loader ${theme === 'dark' ? 'dark' : ''}`}></div>
-                                <p className={`ml-2 ${themeColors.paragraphText}`}>Loading initial offers...</p>
+                                <p className={`ml-2 ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Loading initial offers...</p>
                             </div>
                         )}
                         {error && (
-                            <p className={`${themeColors.errorText} text-center mt-4`}>Error: {error}</p>
+                            <p className={`${theme === 'light' ? 'text-red-500' : 'text-red-400'} text-center mt-4`}>Error: {error}</p>
                         )}
                         {!loading && !error && visibleOffers.length === 0 && filteredCdOffers.length === 0 && (
-                            <p className={`${themeColors.paragraphText} text-center`}>No CD offers found matching your criteria. Try adjusting filters.</p>
+                            <p className={`${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'} text-center`}>No CD offers found matching your criteria. Try adjusting filters.</p>
                         )}
                         <div className="space-y-4">
                             {visibleOffers.map((offer, index) => (
-                                <div key={index} className={`border ${themeColors.cardBorder} p-4 rounded-md ${themeColors.cardBg} ${themeColors.cardHoverBg} transition-colors duration-200`}>
-                                    <h3 className={`text-xl font-semibold ${themeColors.cardTitle}`}>{offer.bankName}</h3>
-                                    <p className={`${themeColors.cardText}`}>
+                                <div key={index} className={`border p-4 rounded-md transition-colors duration-200 ${theme === 'light' ? 'border-gray-200 bg-white hover:bg-gray-100' : 'border-[#30363D] bg-[#161B22] hover:bg-[#30363D]'}`}>
+                                    <h3 className={`text-xl font-semibold ${theme === 'light' ? 'text-indigo-700' : 'text-[#58A6FF]'}`}>{offer.bankName}</h3>
+                                    <p className={`${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>
                                         <span className="font-medium">APY:</span> {offer.apyDisplay}
                                     </p>
-                                    <p className={`${themeColors.cardText}`}>
+                                    <p className={`${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>
                                         <span className="font-medium">Term:</span> {offer.term}
                                     </p>
-                                    <p className={`${themeColors.cardText}`}>
+                                    <p className={`${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>
                                         <span className="font-medium">Minimum Deposit:</span> {offer.minDepositDisplay}
                                     </p>
-                                    <p className={`${themeColors.cardText}`}>
+                                    <p className={`${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>
                                         <span className="font-medium">Valid As Of:</span> {offer.validAsOf}
                                     </p>
                                     {offer.cdSummary && (
-                                        <p className={`text-sm mt-2 italic ${themeColors.cardItalicText}`}>
+                                        <p className={`text-sm mt-2 italic ${theme === 'light' ? 'text-gray-500' : 'text-[#8B949E]'}`}>
                                             Summary: {offer.cdSummary}
                                         </p>
                                     )}
@@ -881,18 +840,18 @@ export default function App() {
                         {loading && visibleOffers.length > 0 && (
                             <div className="flex justify-center items-center mt-6">
                                 <div className={`loader ${theme === 'dark' ? 'dark' : ''}`}></div>
-                                <p className={`ml-2 ${themeColors.paragraphText}`}>Loading more offers...</p>
+                                <p className={`ml-2 ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Loading more offers...</p>
                             </div>
                         )}
 
                         {!hasMore && visibleOffers.length > 0 && (
-                            <p className={`${themeColors.paragraphText} text-center mt-6`}>All available offers loaded!</p>
+                            <p className={`${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'} text-center mt-6`}>All available offers loaded!</p>
                         )}
                         {hasMore && (
                             <div className="flex justify-center mt-6">
                                 <button
                                     onClick={loadMoreOffers}
-                                    className={`px-6 py-3 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 ${themeColors.filterApplyButtonBg} ${themeColors.filterApplyButtonHover} ${theme === 'light' ? 'text-white focus:ring-indigo-500' : 'text-white focus:ring-[#58A6FF]'}`}
+                                    className={`px-6 py-3 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 ${theme === 'light' ? 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-500' : 'bg-[#21262D] hover:bg-[#30363D] text-white focus:ring-[#58A6FF]'}`}
                                 >
                                     Load More
                                 </button>
@@ -902,11 +861,11 @@ export default function App() {
                 )}
 
                 {currentView === 'table' && (
-                    <section className={`w-full max-w-4xl ${themeColors.sectionBg} p-6 rounded-lg ${themeColors.sectionShadow} overflow-x-auto relative`}>
-                        <h2 className={`text-2xl font-semibold mb-4 ${themeColors.sectionTitle}`}>Available CD Offers (Table View)</h2>
+                    <section className={`w-full max-w-4xl p-6 rounded-lg overflow-x-auto relative ${theme === 'light' ? 'bg-white shadow-md' : 'bg-[#161B22] shadow-lg shadow-gray-900'}`}>
+                        <h2 className={`text-2xl font-semibold mb-4 ${theme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]'}`}>Available CD Offers (Table View)</h2>
 
                         <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
-                            <p className={`text-xs ${themeColors.paragraphText} mr-2`}>Updated: {lastUpdatedDate}</p>
+                            <p className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'} mr-2`}>Updated: {lastUpdatedDate}</p>
                             <button
                                 ref={viewButtonRef}
                                 onClick={() => setIsViewOptionsOpen(!isViewOptionsOpen)}
@@ -921,18 +880,18 @@ export default function App() {
                             {isViewOptionsOpen && (
                                 <div
                                     ref={viewOptionsRef}
-                                    className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ${themeColors.cardBg} ring-1 ${themeColors.cardBorder} ring-opacity-5 focus:outline-none z-10`}
+                                    className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg ring-1 ring-opacity-5 focus:outline-none z-10 ${theme === 'light' ? 'bg-white border-gray-200' : 'bg-[#161B22] border-[#30363D]'}`}
                                 >
                                     <div className="py-1">
                                         <button
                                             onClick={() => handleViewChange('card')}
-                                            className={`block w-full text-left px-4 py-2 text-sm ${themeColors.cardText} ${themeColors.cardHoverBg} ${currentView === 'card' ? 'font-bold' : ''}`}
+                                            className={`block w-full text-left px-4 py-2 text-sm ${theme === 'light' ? 'text-gray-800 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'} ${currentView === 'card' ? 'font-bold' : ''}`}
                                         >
                                             Card View
                                         </button>
                                         <button
                                             onClick={() => handleViewChange('table')}
-                                            className={`block w-full text-left px-4 py-2 text-sm ${themeColors.cardText} ${themeColors.cardHoverBg} ${currentView === 'table' ? 'font-bold' : ''}`}
+                                            className={`block w-full text-left px-4 py-2 text-sm ${theme === 'light' ? 'text-gray-800 hover:bg-gray-100' : 'text-[#C9D1D9] hover:bg-[#30363D]'} ${currentView === 'table' ? 'font-bold' : ''}`}
                                         >
                                             Table View
                                         </button>
@@ -944,19 +903,19 @@ export default function App() {
                         {loading && (
                             <div className="flex justify-center items-center mt-6">
                                 <div className={`loader ${theme === 'dark' ? 'dark' : ''}`}></div>
-                                <p className={`ml-2 ${themeColors.paragraphText}`}>Loading offers for table...</p>
+                                <p className={`ml-2 ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Loading offers for table...</p>
                             </div>
                         )}
                         {error && (
-                            <p className={`${themeColors.errorText} text-center mt-4`}>Error: {error}</p>
+                            <p className={`${theme === 'light' ? 'text-red-500' : 'text-red-400'} text-center mt-4`}>Error: {error}</p>
                         )}
                         {!loading && !error && filteredCdOffers.length === 0 && (
-                            <p className={`${themeColors.paragraphText} text-center`}>No CD offers found matching your criteria. Try adjusting filters.</p>
+                            <p className={`${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'} text-center`}>No CD offers found matching your criteria. Try adjusting filters.</p>
                         )}
                         {!loading && !error && filteredCdOffers.length > 0 && (
                             <div className="min-w-full">
                                 <table className={`min-w-full divide-y ${theme === 'light' ? 'divide-gray-200' : 'divide-[#30363D]'}`}>
-                                    <thead className={`${themeColors.tableHeadBg}`}>
+                                    <thead className={`${theme === 'light' ? 'bg-gray-50' : 'bg-[#0D1117]'}`}>
                                         <tr>
                                             <th scope="col" className="relative px-3 py-2 text-left text-xs font-medium uppercase tracking-wider rounded-tl-md">
                                                 <ColumnFilterSortPopover
@@ -1047,14 +1006,14 @@ export default function App() {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className={`${themeColors.tableRowBg} divide-y ${theme === 'light' ? 'divide-gray-200' : 'divide-[#30363D]'}`}>
+                                    <tbody className={`divide-y ${theme === 'light' ? 'bg-white divide-gray-200' : 'bg-[#161B22] divide-[#30363D]'}`}>
                                         {filteredCdOffers.map((offer, offerIndex) => (
-                                            <tr key={offerIndex} className={themeColors.tableRowHoverBg}>
-                                                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${themeColors.tableCellText}`}>{offer.bankName}</td>
-                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${themeColors.tableCellSubText}`}>{offer.apyDisplay}</td>
-                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${themeColors.tableCellSubText}`}>{offer.term}</td>
-                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${themeColors.tableCellSubText}`}>{offer.minDepositDisplay}</td>
-                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${themeColors.tableCellSubText}`}>{offer.validAsOf}</td>
+                                            <tr key={offerIndex} className={`${theme === 'light' ? 'hover:bg-gray-50' : 'hover:bg-[#30363D]'}`}>
+                                                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${theme === 'light' ? 'text-gray-900' : 'text-[#C9D1D9]'}`}>{offer.bankName}</td>
+                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{offer.apyDisplay}</td>
+                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{offer.term}</td>
+                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{offer.minDepositDisplay}</td>
+                                                <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{offer.validAsOf}</td>
                                             </tr>
                                         ))}
                                     </tbody>
