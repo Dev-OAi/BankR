@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CD Rate Finder</title>
+  <!-- Tailwind CSS CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #7c3aed, #3730a3);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl text-center transform transition-all duration-300 hover:scale-105">
+    <h1 class="text-4xl font-extrabold mb-6 text-gray-900">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
+        CD Rate Finder
+      </span>
+    </h1>
+    <p class="text-gray-600 mb-4 text-lg">
+      Search for the latest CD rates from Bankrate.
+    </p>
+
+    <!-- Global Updated Date -->
+    <p id="globalUpdatedDate" class="text-gray-700 text-md font-semibold mb-6 hidden">
+      Page Data Last Updated: <span class="text-blue-600"></span>
+    </p>
+
+    <!-- Input Form -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div>
+        <label for="depositAmount" class="block text-gray-700 text-sm font-bold mb-2 text-left">
+          Deposit Amount:
+        </label>
+        <input
+          type="number"
+          id="depositAmount"
+          placeholder="e.g., 10000"
+          value="10000"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+        >
+      </div>
+      <div>
+        <label for="zipCode" class="block text-gray-700 text-sm font-bold mb-2 text-left">
+          Zip Code:
+        </label>
+        <input
+          type="text"
+          id="zipCode"
+          placeholder="e.g., 33401"
+          value="33401"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+        >
+      </div>
+      <div>
+        <label for="productType" class="block text-gray-700 text-sm font-bold mb-2 text-left">
+          Product Type:
+        </label>
+        <select
+          id="productType"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700 bg-white"
+        >
+          <option value="CDs">CDs</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label for="url" class="block text-gray-700 text-sm font-bold mb-2 text-left">
+        URL to search:
+      </label>
+      <input
+        type="url"
+        id="url"
+        placeholder="e.g., https://www.bankrate.com/banking/cds/cd-rates/"
+        value="https://www.bankrate.com/banking/cds/cd-rates/"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+      >
+    </div>
+
+    <button
+      id="findRatesBtn"
+      class="w-full py-3 px-6 rounded-lg font-bold text-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:from-blue-600 hover:to-purple-700 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-300"
+    >
+      Find CD Rates
+    </button>
+
+    <!-- Error Message -->
+    <div id="error" class="mt-6 p-4 bg-red-100 text-red-700 rounded-lg border border-red-200 shadow-sm hidden">
+      <p class="font-semibold">Error:</p>
+      <p id="errorMessage"></p>
+    </div>
+
+    <!-- Summary Message -->
+    <div id="summary" class="mt-6 p-4 bg-blue-50 text-blue-800 rounded-lg shadow-md border border-blue-200 text-left hidden">
+      <p id="summaryMessage" class="font-semibold"></p>
+    </div>
+
+    <!-- Debug Info -->
+    <div id="debug" class="mt-6 p-4 bg-gray-100 text-gray-800 rounded-lg shadow-md border border-gray-200 text-left hidden">
+      <p class="font-semibold">Debug Info:</p>
+      <pre id="debugInfo" class="text-sm overflow-auto"></pre>
+    </div>
+
+    <!-- CD Offers Table -->
+    <div id="cdOffers" class="mt-6 bg-blue-50 rounded-lg shadow-md border border-blue-200 overflow-x-auto hidden">
+      <h2 class="text-2xl font-bold text-blue-800 p-4 text-left">CD Offers Found:</h2>
+      <table class="min-w-full divide-y divide-blue-200">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tl-lg">
+              Bank
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+              APY
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+              Min. Deposit
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+              Term
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tr-lg">
+              Valid As Of
+            </th>
+          </tr>
+        </thead>
+        <tbody id="cdOffersTable" class="bg-white divide-y divide-blue-200"></tbody>
+      </table>
+    </div>
+
+    <p class="mt-8 text-gray-500 text-sm">
+      Powered by Backend Scraper.
+    </p>
+  </div>
+
+  <script>
+    // Fallback data in case the backend fails
+    const fallbackData = {
+      globalUpdatedDate: 'June 26, 2025',
+      cdOffers: [
+        {
+          bankName: 'Rising Bank',
+          apy: '4.49%',
+          minDeposit: '$1,000',
+          term: '6mo',
+          validAsOf: '6/24/2025'
+        },
+        {
+          bankName: 'First Internet Bank',
+          apy: '4.40%',
+          minDeposit: '$1,000',
+          term: '1yr',
+          validAsOf: '6/24/2025'
+        }
+      ],
+      found: true,
+      message: 'Fallback data loaded due to backend failure.'
+    };
+
+    // DOM elements
+    const findRatesBtn = document.getElementById('findRatesBtn');
+    const globalUpdatedDateEl = document.getElementById('globalUpdatedDate');
+    const globalUpdatedDateSpan = globalUpdatedDateEl.querySelector('span');
+    const errorEl = document.getElementById('error');
+    const errorMessageEl = document.getElementById('errorMessage');
+    const summaryEl = document.getElementById('summary');
+    const summaryMessageEl = document.getElementById('summaryMessage');
+    const debugEl = document.getElementById('debug');
+    const debugInfoEl = document.getElementById('debugInfo');
+    const cdOffersEl = document.getElementById('cdOffers');
+    const cdOffersTable = document.getElementById('cdOffersTable');
+
+    // Function to fetch CD rates
+    async function findCdRates() {
+      const url = document.getElementById('url').value;
+      const depositAmount = document.getElementById('depositAmount').value;
+      const zipCode = document.getElementById('zipCode').value;
+      const productType = document.getElementById('productType').value;
+
+      // Reset UI
+      findRatesBtn.textContent = 'Searching...';
+      findRatesBtn.disabled = true;
+      errorEl.classList.add('hidden');
+      summaryEl.classList.add('hidden');
+      debugEl.classList.add('hidden');
+      cdOffersEl.classList.add('hidden');
+      globalUpdatedDateEl.classList.add('hidden');
+      cdOffersTable.innerHTML = '';
+
+      if (!url) {
+        showError('Please enter a URL.');
+        findRatesBtn.textContent = 'Find CD Rates';
+        findRatesBtn.disabled = false;
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/scrape-bankrate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, depositAmount, zipCode, productType })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(`API error: ${response.status} - ${errorData.message || response.statusText}`);
+        }
+
+        const result = await response.json();
+
+        // Debug: Show raw response
+        debugInfoEl.textContent = JSON.stringify(result, null, 2);
+        debugEl.classList.remove('hidden');
+
+        if (result.found && result.cdOffers) {
+          // Update global updated date
+          globalUpdatedDateSpan.textContent = result.globalUpdatedDate || 'N/A';
+          globalUpdatedDateEl.classList.remove('hidden');
+
+          // Update summary message
+          summaryMessageEl.textContent = result.message || 'CD rates fetched successfully.';
+          summaryEl.classList.remove('hidden');
+
+          // Populate CD offers table
+          result.cdOffers.forEach((offer, index) => {
+            const row = document.createElement('tr');
+            row.className = index % 2 === 0 ? 'bg-white' : 'bg-blue-50';
+            row.innerHTML = `
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${offer.bankName || 'N/A'}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.apy || 'N/A'}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.minDeposit || 'N/A'}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.term || 'N/A'}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.validAsOf || 'N/A'}</td>
+            `;
+            cdOffersTable.appendChild(row);
+          });
+          cdOffersEl.classList.remove('hidden');
+        } else {
+          showError('No CD rates found or unexpected response format.');
+          debugInfoEl.textContent = JSON.stringify(result, null, 2);
+          debugEl.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error('Error fetching CD rates:', err);
+        showError(`Failed to fetch CD rates: ${err.message}. Using fallback data.`);
+
+        // Use fallback data
+        globalUpdatedDateSpan.textContent = fallbackData.globalUpdatedDate;
+        globalUpdatedDateEl.classList.remove('hidden');
+        summaryMessageEl.textContent = fallbackData.message;
+        summaryEl.classList.remove('hidden');
+        fallbackData.cdOffers.forEach((offer, index) => {
+          const row = document.createElement('tr');
+          row.className = index % 2 === 0 ? 'bg-white' : 'bg-blue-50';
+          row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${offer.bankName}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.apy}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.minDeposit}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.term}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${offer.validAsOf}</td>
+          `;
+          cdOffersTable.appendChild(row);
+        });
+        cdOffersEl.classList.remove('hidden');
+      } finally {
+        findRatesBtn.textContent = 'Find CD Rates';
+        findRatesBtn.disabled = false;
+      }
+    }
+
+    // Show error message
+    function showError(message) {
+      errorMessageEl.textContent = message;
+      errorEl.classList.remove('hidden');
+    }
+
+    // Event listener for button
+    findRatesBtn.addEventListener('click', findCdRates);
+
+    // Load rates on page load
+    window.addEventListener('load', findCdRates);
+  </script>
+</body>
+</html>

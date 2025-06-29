@@ -1,0 +1,536 @@
+Revised Code
+Below is a revised version of your code incorporating some of these improvements. Since you’re using React for the frontend, I’ll assume you have a backend (e.g., Node.js) to handle scraping with a headless browser. If you don’t, you’ll need to set up a server or use a serverless function (e.g., Vercel, AWS Lambda) to run the scraping logic, as client-side React cannot run Puppeteer directly.
+
+Revised Frontend (React)
+jsx
+
+Collapse
+
+Wrap
+
+Copy
+import React, { useState, useEffect } from 'react';
+
+// Main App component
+const App = () => {
+  const [url, setUrl] = useState('https://www.bankrate.com/banking/cds/cd-rates/');
+  const [depositAmount, setDepositAmount] = useState('10000');
+  const [zipCode, setZipCode] = useState('33401');
+  const [productType, setProductType] = useState('CDs');
+  const [cdOffers, setCdOffers] = useState([]);
+  const [globalUpdatedDate, setGlobalUpdatedDate] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [summaryMessage, setSummaryMessage] = useState('');
+  const [debugInfo, setDebugInfo] = useState(''); // New state for debugging
+
+  // Function to call the backend API for scraping
+  const findCdRates = async () => {
+    setLoading(true);
+    setCdOffers([]);
+    setGlobalUpdatedDate('');
+    setSummaryMessage('');
+    setError('');
+    setDebugInfo('');
+
+    if (!url) {
+      setError('Please enter a URL.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Call a backend endpoint instead of Gemini API directly
+      const response = await fetch('/api/scrape-bankrate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, depositAmount, zipCode, productType }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`API error: ${response.status} - ${errorData.message || response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (result.found && result.cdOffers) {
+        setCdOffers(result.cdOffers);
+        setGlobalUpdatedDate(result.globalUpdatedDate || 'N/A');
+        setSummaryMessage(result.message || 'CD rates fetched successfully.');
+      } else {
+        setError('No CD rates found or unexpected response format.');
+        setDebugInfo(JSON.stringify(result, null, 2)); // Store raw response for debugging
+      }
+    } catch (err) {
+      console.error('Error fetching CD rates:', err);
+      setError(`Failed to fetch CD rates: ${err.message}. Please try again or check the URL.`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    findCdRates();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-800 flex items-center justify-center p-4 font-sans antialiased">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl text-center transform transition-all duration-300 hover:scale-105">
+        <h1 className="text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
+            Enhanced CD Rate Finder
+          </span>
+        </h1>
+        <p className="text-gray-600 mb-4 text-lg">
+          CD rates are loaded automatically with default search criteria upon launching.
+        </p>
+
+        {globalUpdatedDate && (
+          <p className="text-gray-700 text-md font-semibold mb-6">
+            Page Data Last Updated: <span className="text-blue-600">{globalUpdatedDate}</span>
+          </p>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label htmlFor="depositAmount" className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              Deposit Amount:
+            </label>
+            <input
+              type="number"
+              id="depositAmount"
+              placeholder="e.g., 10000"
+              value={depositAmount}
+              onChange={(e) => setDepositAmount(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+            />
+          </div>
+          <div>
+            <label htmlFor="zip。这时, setZipCode" className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              Zip Code:
+            </label>
+            <input
+              type="text"
+              id="zipCode"
+              placeholder="e.g., 33401"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+            />
+          </div>
+          <div>
+            <label htmlFor="productType" className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              Product Type:
+            </label>
+            <select
+              id="productType"
+              value={productType}
+              onChange={(e) => setProductType(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700 bg-white"
+            >
+              <option value="CDs">CDs</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="url" className="block text-gray-700 text-sm font-bold mb-2 text-left">
+            URL to search:
+          </label>
+          <input
+            type="url"
+            id="url"
+            placeholder="e.g., https://www.bankrate.com/banking/cds/cd-rates/"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 shadow-sm text-gray-700"
+          />
+        </div>
+
+        <button
+          onClick={findCdRates}
+          disabled={loading}
+          className={`w-full py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform
+            ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:from-blue-600 hover:to-purple-700 hover:scale-105 active:scale-95'}
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400`}
+        >
+          {loading ? 'Searching...' : 'Find CD Rates'}
+        </button>
+
+        {error && (
+          <div className="mt-6 p-4 bg-red-100 text-red-700 rounded-lg border border-red-200 shadow-sm">
+            <p className="font-semibold">Error:</p>
+            <p>{error}</p>
+          </div>
+        )}
+
+        {summaryMessage && (
+          <div className="mt-6 p-4 bg-blue-50 text-blue-800 rounded-lg shadow-md border border-blue-200 text-left">
+            <p className="font-semibold">{summaryMessage}</p>
+          </div>
+        )}
+
+        {debugInfo && (
+          <div className="mt-6 p-4 bg-gray-100 text-gray-800 rounded-lg shadow-md border border-gray-200 text-left">
+            <p className="font-semibold">Debug Info:</p>
+            <pre className="text-sm overflow-auto">{debugInfo}</pre>
+          </div>
+        )}
+
+        {cdOffers.length > 0 && (
+          <div className="mt-6 bg-blue-50 rounded-lg shadow-md border border-blue-200 overflow-x-auto">
+            <h2 className="text-2xl font-bold text-blue-800 p-4 text-left">CD Offers Found:</h2>
+            <table className="min-w-full divide-y divide-blue-200">
+              <thead className="bg-blue-100">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tl-lg">
+                    Bank
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                    APY
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                    Min. Deposit
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                    Term
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tr-lg">
+                    Valid As Of
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-blue-200">
+                {cdOffers.map((offer, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {offer.bankName || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                      {offer.apy || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                      {offer.minDeposit || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                      {offer.term || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                      {offer.validAsOf || 'N/A'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <p className="mt-8 text-gray-500 text-sm">
+          Powered by Backend Scraper and Gemini LLM.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+Backend (Node.js with Puppeteer)
+Create a backend endpoint (e.g., using Express and Puppeteer) to scrape Bankrate’s page. Save this as server.js and run it with Node.js.
+
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+const express = require('express');
+const puppeteer = require('puppeteer');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post('/api/scrape-bankrate', async (req, res) => {
+  const { url, depositAmount, zipCode, productType } = req.body;
+
+  try {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    // Navigate to Bankrate's CD rates page
+    await page.goto(url, { waitUntil: 'networkidle2' });
+
+    // Extract the global updated date (example selector, inspect Bankrate’s page for the correct one)
+    const globalUpdatedDate = await page.evaluate(() => {
+      const dateElement = document.querySelector('.last-updated-date'); // Replace with actual selector
+      return dateElement ? dateElement.textContent.trim() : 'N/A';
+    });
+
+    // Simulate clicking "show more" button until no more data loads
+    let hasMore = true;
+    while (hasMore) {
+      try {
+        await page.click('.show-more-button', { timeout: 2000 }); // Replace with actual selector
+        await page.waitForTimeout(1000); // Wait for new content to load
+      } catch (e) {
+        hasMore = false; // No more "show more" button
+      }
+    }
+
+    // Extract CD offers from the main table
+    const cdOffers = await page.evaluate(() => {
+      const offers = [];
+      const rows = document.querySelectorAll('.cd-offer-row'); // Replace with actual selector
+      rows.forEach((row) => {
+        const bankName = row.querySelector('.bank-name')?.textContent.trim() || 'N/A';
+        const apy = row.querySelector('.apy')?.textContent.trim() || 'N/A';
+        const minDeposit = row.querySelector('.min-deposit')?.textContent.trim() || 'N/A';
+        const term = row.querySelector('.term')?.textContent.trim() || 'N/A';
+        const validAsOf = row.querySelector('.valid-as-of')?.textContent.trim() || 'N/A';
+
+        offers.push({
+          bankName,
+          apy,
+          minDeposit,
+          term,
+          validAsOf,
+        });
+      });
+      return offers;
+    });
+
+    await browser.close();
+
+    res.json({
+      found: cdOffers.length > 0,
+      message: cdOffers.length > 0 ? 'CD rates fetched successfully.' : 'No CD rates found.',
+      globalUpdatedDate,
+      cdOffers,
+    });
+  } catch (err) {
+    console.error('Scraping error:', err);
+    res.status(500).json({ message: `Scraping failed: ${err.message}` });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+Setup Instructions
+Install Dependencies:
+bash
+
+Collapse
+
+Wrap
+
+Copy
+npm install express puppeteer cors
+Run the Backend:
+bash
+
+Collapse
+
+Wrap
+
+Copy
+node server.js
+Configure Frontend:
+Ensure the frontend makes requests to http://localhost:5000/api/scrape-bankrate (or your deployed backend URL).
+Use a proxy like http-proxy-middleware if running locally to handle CORS.
+Environment Variables:
+Store sensitive data like the API key in a .env file:
+text
+
+Collapse
+
+Wrap
+
+Copy
+GEMINI_API_KEY=your-api-key
+Load it in Node.js using dotenv:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+require('dotenv').config();
+Inspect Bankrate’s DOM:
+Open https://www.bankrate.com/banking/cds/cd-rates/ in a browser and use Developer Tools to find the correct CSS selectors for:
+The global updated date (e.g., .last-updated-date).
+The CD offer table rows (e.g., .cd-offer-row).
+The "show more" button (e.g., .show-more-button).
+Individual fields (bank name, APY, etc.).
+Update the selectors in the backend code accordingly.
+Deploy the Backend:
+Deploy to a service like Vercel, AWS, or Heroku. Ensure Puppeteer is configured correctly for serverless environments (e.g., use puppeteer-core with a Chrome executable).
+Additional Tips
+Handle Dynamic Selectors:
+Bankrate’s DOM structure may change. Regularly check the page’s HTML to ensure your selectors are correct. Use robust selectors (e.g., [data-testid="cd-rate"]) if available.
+Rate Limiting and CAPTCHA:
+Bankrate may block frequent requests or show CAPTCHAs. Use rotating proxies or a service like BrightData to avoid blocks. Puppeteer can be configured with proxy settings:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--proxy-server=your-proxy-server'],
+});
+Caching:
+Store results in a local JSON file or database (e.g., MongoDB) to reduce scraping frequency:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+const fs = require('fs');
+fs.writeFileSync('cd-rates.json', JSON.stringify({ globalUpdatedDate, cdOffers }));
+Fallback Data:
+If scraping fails, use hardcoded fallback data based on recent web results:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+const fallbackData = {
+  globalUpdatedDate: 'June 26, 2025',
+  cdOffers: [
+    {
+      bankName: 'Rising Bank',
+      apy: '4.49%',
+      minDeposit: '$1,000',
+      term: '6mo',
+      validAsOf: '6/24/2025',
+    },
+    // Add more from web results
+  ],
+};
+Testing:
+Test the backend scraper locally by logging the extracted data:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+console.log('Scraped Data:', { globalUpdatedDate, cdOffers });
+User Feedback:
+Improve the UI to show partial results or warnings if some fields (e.g., validAsOf) are missing. For example:
+jsx
+
+Collapse
+
+Wrap
+
+Copy
+{cdOffers.some(offer => offer.validAsOf === 'N/A') && (
+  <p className="text-yellow-600 mt-4">
+    Some offer details are missing. Try refreshing or checking the source URL.
+  </p>
+)}
+Expected Output
+With the revised setup, your app should display:
+
+Global Updated Date: E.g., “June 26, 2025” (based on).
+CD Offers: A table with entries like:
+Bank Name: Rising Bank
+APY: 4.49%
+Min. Deposit: $1,000
+Term: 6mo
+Valid As Of: 6/24/2025
+If the scraper fails to find certain fields, it will return “N/A” as specified, ensuring the UI remains populated.
+
+Debugging Steps
+If the current data still isn’t showing:
+
+Check the Backend Response:
+Log the response from /api/scrape-bankrate to ensure the correct data is being sent.
+Use console.log(await response.json()) in the frontend.
+Inspect Selectors:
+Open Bankrate’s page in Chrome DevTools (F12) and verify the CSS selectors match the current DOM structure.
+Test Puppeteer Locally:
+Run the backend script locally and print the scraped HTML to confirm all elements are loaded:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+const html = await page.content();
+console.log(html);
+Check Network Requests:
+In Chrome DevTools, go to the Network tab and look for AJAX requests (e.g., XHR or Fetch) that load CD rates. You may be able to scrape these directly instead of parsing HTML.
+API Key Issues:
+If using the Gemini API, ensure the key is valid and not rate-limited. Test the API call separately:
+bash
+
+Collapse
+
+Wrap
+
+Copy
+curl -X POST -H "Content-Type: application/json" -d '{"contents":[{"role":"user","parts":[{"text":"Test"}]}]}' \
+https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=your-api-key
+Alternative Approach: Use Bankrate’s Data Directly
+If scraping continues to be unreliable, consider:
+
+Partnering with Bankrate: Check if Bankrate offers a public API or data feed for CD rates. This is not mentioned in the web results, but you can contact their support team.
+Third-Party Aggregators: Use APIs from financial data providers like Plaid or Yodlee, which may offer CD rate data (requires subscription).
+Manual Data Entry: As a last resort, manually update a JSON file with rates from Bankrate’s page (e.g.,) and serve it via your backend.
+Example Data from Web Results
+Based on and, you should expect data like:
+
+json
+
+Collapse
+
+Wrap
+
+Copy
+{
+  "globalUpdatedDate": "June 26, 2025",
+  "cdOffers": [
+    {
+      "bankName": "Rising Bank",
+      "apy": "4.49%",
+      "minDeposit": "$1,000",
+      "term": "6mo",
+      "validAsOf": "6/24/2025"
+    },
+    {
+      "bankName": "First Internet Bank",
+      "apy": "4.40%",
+      "minDeposit": "$1,000",
+      "term": "1yr",
+      "validAsOf": "6/24/2025"
+    }
+    // Add more offers as scraped
+  ]
+}
+Final Notes
+Puppeteer vs. LLM: Puppeteer is more reliable for dynamic websites like Bankrate. The LLM can still be used to parse the scraped HTML if needed, but Puppeteer alone should suffice.
+Legal Considerations: Ensure compliance with Bankrate’s terms of service. Avoid excessive scraping to prevent IP bans. Use delays between requests:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+await page.waitForTimeout(2000); // 2-second delay
+Maintenance: Regularly update selectors and test the scraper, as Bankrate’s DOM may change.
+If you need help setting up the backend, deploying it, or debugging specific selectors, let me know,
