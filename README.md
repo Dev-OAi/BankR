@@ -1,12 +1,14 @@
-# React + Vite
+# BankR: Your Smart CD Rate Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BankR is a dynamic web application built with React and Vite, designed to empower you with real-time Certificate of Deposit (CD) rates. It fetches the latest CD offers and bank review summaries from a GraphQL API, providing a comprehensive and interactive platform for comparing and finding the best CD rates.
 
-Currently, two official plugins are available:
+## Features:
+- **Real-time CD Rates:** Access up-to-date Certificate of Deposit rates.
+- **Detailed Bank Information:** View associated bank review summaries for informed decisions.
+- **Flexible Filtering & Sorting:** Easily filter and sort CD offers by bank name, APY, term, and minimum deposit.
+- **Multiple Views:** Switch between a user-friendly card view and a detailed table view.
+- **Data Export:** Export filtered CD offer data to CSV for offline analysis.
+- **Responsive Design:** Enjoy a seamless experience across various devices.
+- **Dark/Light Theme:** Toggle between dark and light modes for personalized viewing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+BankR aims to simplify your search for high-yield CDs, helping you make smarter financial choices.
