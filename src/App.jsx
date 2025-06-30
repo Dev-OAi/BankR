@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 // Define the GraphQL API URL for CD Rates and Bank Reviews
 const API_URL = 'https://wealth-banking-graphql.bankrate.com/graphql';
-const ITEMS_PER_PAGE = 5; // Number of items to load at a time for card view pagination
+const ITEMS_PER_PAGE = 21; // Number of items to load at a time for card view pagination
 
 // Column Filter/Sort Popover Component
 function ColumnFilterSortPopover({
