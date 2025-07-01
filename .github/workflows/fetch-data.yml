@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: '20' # Use a recent, stable version of Node.js
 
-      # Step 3: Install the project dependencies
+      # Step 3: Install the project dependencies (including puppeteer)
       - name: Install dependencies
         run: npm install
 
@@ -39,13 +39,9 @@ jobs:
       - name: Run the data fetch script
         run: node fetch-data.js
 
-      # Step 5: Commit the updated apy-history.json file
+      # Step 5: Commit the updated data file
       - name: Commit and push if it changed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: Update APY history data"
-<<<<<<< HEAD
+          commit_message: "chore: Update daily bank rates"
           file_pattern: "bank-rates-history.json"
-=======
-          file_pattern: "bank-rates-history.json"
->>>>>>> 9ab3542d44bd35a21a11222cb62aea48e52bc8f2
