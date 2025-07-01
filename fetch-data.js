@@ -11,23 +11,9 @@ const MAIN_HISTORY_FILE = './bank-rates-history.json';
 const RATE_HISTORY_CSV_FILE = './rate-history.csv';
 const RATE_HISTORY_API_BASE = 'https://www.depositaccounts.com/ajax/rates-history.aspx?a=';
 
-// --- Helper Functions ---
-function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-async function humanLikeScroll(page) {
-    await page.evaluate(async () => {
-        const distance = 200;
-        const delay = 100 + Math.random() * 50;
-        for (let i = 0; i < document.body.scrollHeight / distance; i++) {
-            window.scrollBy(0, distance);
-            await new Promise(resolve => setTimeout(resolve, delay));
-        }
-    });
-}
-
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting "Full-Page Research Simulation" scrape...');
+  console.log('Starting "Surgical Strike" scrape...');
   let browser = null;
   const allBankRates = [];
   let rateHistoryCsvContent = 'bank_name,account_name,history_date,history_apy\n';
@@ -35,105 +21,78 @@ async function fetchAndSaveData() {
   try {
     browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
-    await page.setViewport({ width: 1920, height: 1080 });
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
+
+    // --- SPEED OPTIMIZATION: Intercept and block non-essential requests ---
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      const resourceType = req.resourceType();
+      if (resourceType === 'image' || resourceType === 'stylesheet' || resourceType === 'font' || resourceType === 'media' || req.url().includes('google') || req.url().includes('doubleclick')) {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
+    // --- End Speed Optimization ---
 
     for (const bank of TARGET_BANKS) {
       console.log(`--- Processing Bank: ${bank.name} ---`);
-      await page.goto(bank.url, { waitUntil: 'networkidle2' });
-      
-      // --- Step 1: Human-like "Research" Phase ---
-      console.log('Phase 1: Researching page...');
+      await page.goto(bank.url, { waitUntil: 'domcontentloaded', timeout: 60000 }); // Wait for HTML, not all resources
 
-      // Handle cookie banner if it exists
       try {
-        const rejectButtonSelector = '#ccpa-banner-reject-all-btn';
-        await page.waitForSelector(rejectButtonSelector, { timeout: 5000 });
-        await page.click(rejectButtonSelector);
-        console.log('- Rejected cookie banner.');
-        await sleep(1000 + Math.random() * 1000); // Wait after closing banner
+        await page.waitForSelector('#cdTable tbody tr', { timeout: 15000 });
+        console.log('- CD table found.');
       } catch (e) {
-        console.log('- No cookie banner found, continuing.');
+        console.log(`- No CD table found for ${bank.name}. Skipping.`);
+        continue;
       }
       
-      console.log('- Scrolling down to "read" the page...');
-      await humanLikeScroll(page);
-      await sleep(1000 + Math.random() * 1500);
-      
-      console.log('- Expanding all details sections...');
-      const detailLinks = await page.$$('#cdTable tbody tr td:last-child a');
-      for (const link of detailLinks) {
-          if (link) {
-              await link.click({ delay: 50 + Math.random() * 50 });
-          }
-      }
-      console.log(`- Expanded ${detailLinks.length} sections. Waiting for content to load...`);
-      await sleep(5000); // Give a generous wait for all details to load
+      const rows = await page.$$('#cdTable tbody tr[id^="a"]');
+      console.log(`- Found ${rows.length} product rows to process.`);
 
-      // --- Step 2: Scrape All Data At Once ---
-      console.log('Phase 2: Scraping all visible data...');
-      
-      const scrapedData = await page.evaluate((bankName) => {
-        const rates = [];
-        const rows = document.querySelectorAll('#cdTable tbody tr[id^="a"]'); // Only get data rows
+      for (const row of rows) {
+        const rowId = await row.evaluate(el => el.id);
+        const accountId = rowId.replace('a', '');
         
-        rows.forEach(row => {
-          const accountId = row.id.replace('a', '');
-          const apyEl = row.querySelector('td.apy');
-          const minEl = row.querySelector('td:nth-child(2)');
-          const accountNameEl = row.querySelector('td:nth-child(4)');
-          
-          // Now look for the details in the *next* row
-          const detailsRow = row.nextElementSibling;
-          let updatedDate = 'N/A';
-          if (detailsRow && detailsRow.classList.contains('accountDetails')) {
-            const dateEl = detailsRow.querySelector('.rate-history-date');
-            if (dateEl) {
-              updatedDate = dateEl.innerText.replace('Last updated on', '').trim();
-            }
-          }
-
-          if (apyEl && minEl && accountNameEl) {
-            rates.push({
-              accountId,
-              bank_name: bankName,
-              apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
-              min_deposit: minEl.innerText.trim(),
-              account_name: accountNameEl.innerText.trim(),
-              last_updated: updatedDate
-            });
-          }
+        // Use a single evaluate to get all data at once to minimize back-and-forth
+        const rateData = await row.evaluate(el => {
+            const apyEl = el.querySelector('td.apy');
+            const minEl = el.querySelector('td:nth-child(2)');
+            const accountNameEl = el.querySelector('td:nth-child(4)');
+            return {
+                apy: apyEl ? parseFloat(apyEl.innerText.replace('%', '').trim()) : 'N/A',
+                min_deposit: minEl ? minEl.innerText.trim() : 'N/A',
+                account_name: accountNameEl ? accountNameEl.innerText.trim() : 'Unknown Account'
+            };
         });
-        return rates;
-      }, bank.name);
 
-      console.log(`- Scraped ${scrapedData.length} enriched rate entries.`);
-      allBankRates.push(...scrapedData);
+        rateData.accountId = accountId;
+        rateData.bank_name = bank.name;
+        
+        allBankRates.push(rateData);
 
-      // --- Step 3: Scrape Historical API Data ---
-      console.log('Phase 3: Fetching historical data from API...');
-      for (const rate of scrapedData) {
-        try {
-            const historyResponse = await page.evaluate(async (url) => {
+        // Fetch history in parallel while the main loop continues
+        page.evaluate(async (url) => {
+            try {
                 const res = await fetch(url);
-                if (!res.ok) return null; // Don't crash if one fails
-                return await res.json();
-            }, `${RATE_HISTORY_API_BASE}${rate.accountId}`);
-            
+                if (res.ok) return await res.json();
+            } catch (e) { /* ignore */ }
+            return null;
+        }, `${RATE_HISTORY_API_BASE}${accountId}`).then(historyResponse => {
             if (historyResponse && historyResponse.Date && historyResponse.Apy) {
                 for (let i = 0; i < historyResponse.Date.length; i++) {
-                    rateHistoryCsvContent += `"${bank.name}","${rate.account_name}","${historyResponse.Date[i]}",${historyResponse.Apy[i]}\n`;
+                    rateHistoryCsvContent += `"${bank.name}","${rateData.account_name}","${historyResponse.Date[i]}",${historyResponse.Apy[i]}\n`;
                 }
             }
-        } catch (e) {
-            console.log(`- Could not fetch rate history for account ${rate.accountId}`);
-        }
+        });
       }
     }
+    
+    // Final wait to ensure all background fetches for history have time to complete
+    await new Promise(res => setTimeout(res, 5000));
 
     // --- Final Step: Save Files ---
     console.log('--- All scraping finished ---');
-    if (allBankRates.length === 0) throw new Error('No rates were scraped. Something went wrong.');
+    if (allBankRates.length === 0) throw new Error('No rates were scraped.');
     
     const newHistoryEntry = { date: new Date().toISOString(), data: allBankRates };
     let history = [];
