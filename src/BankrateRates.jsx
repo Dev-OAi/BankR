@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom'; // <-- RE-ADDED: We need this for the new link
 
 // Define the GraphQL API URL for CD Rates and Bank Reviews
 const API_URL = 'https://wealth-banking-graphql.bankrate.com/graphql';
@@ -149,7 +150,7 @@ function ColumnFilterSortPopover({
 }
 
 
-export default function App() {
+export default function BankrateRates() { // <-- RENAMED from App to BankrateRates
     const [fullCdOffers, setFullCdOffers] = useState([]); // All fetched and processed offers
     const [filteredCdOffers, setFilteredCdOffers] = useState([]); // Offers after applying filters and sorting
     const [visibleOffers, setVisibleOffers] = useState([]); // Offers currently visible in the UI for card view
@@ -633,6 +634,15 @@ export default function App() {
                     </svg>
                 </button>
                 <nav className="mt-8 flex flex-col space-y-4">
+                    {/* --- ADDED: The new link to the Historical Dashboard --- */}
+                    <Link
+                        to="/history"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]'}`}
+                    >
+                        Historical Dashboard
+                    </Link>
+                    <hr className={`my-2 ${theme === 'light' ? 'border-gray-600' : 'border-[#30363D]'}`} />
                     <button
                         onClick={() => { setCurrentView('card'); setIsSidebarOpen(false); }}
                         className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${
