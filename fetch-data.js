@@ -8,15 +8,29 @@ const TARGET_BANKS = [
   { name: 'Ally Bank', url: 'https://www.depositaccounts.com/banks/ally-bank.html' }
 ];
 const MAIN_HISTORY_FILE = './bank-rates-history.json';
+const RATE_HISTORY_CSV_FILE = './rate-history.csv'; // We will still create this, even if empty, for consistency.
+const RATE_HISTORY_API_BASE = 'https://www.depositaccounts.com/ajax/rates-history.aspx?a=';
 
 // --- Helper Functions ---
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+async function humanLikeScroll(page) {
+    await page.evaluate(async () => {
+        const distance = 250;
+        const delay = 50 + Math.random() * 50;
+        for (let i = 0; i < document.body.scrollHeight / distance; i++) {
+            window.scrollBy(0, distance);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+    });
+}
+
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting simplified "Single Source of Truth" scrape...');
+  console.log('Starting HYPER-PATIENT Research scrape...');
   let browser = null;
   const allBankRates = [];
+  const allHistoryPromises = [];
 
   try {
     browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -36,33 +50,50 @@ async function fetchAndSaveData() {
       console.log(`\n--- Processing Bank: ${bank.name} ---`);
       await page.goto(bank.url, { waitUntil: 'networkidle2', timeout: 60000 });
       
+      console.log('Phase 1: Researching page...');
       try {
-        await page.waitForSelector('#ccpa-banner-reject-all-btn', { timeout: 5000 });
+        await page.waitForSelector('#ccpa-banner-reject-all-btn', { timeout: 5000, visible: true });
         await page.click('#ccpa-banner-reject-all-btn');
         console.log('- Rejected cookie banner.');
-      } catch (e) { console.log('- No cookie banner found.'); }
+      } catch (e) {
+        console.log('- No cookie banner found or it was not visible.');
+      }
       
-      await sleep(1000); // Small pause after potential banner click
+      await humanLikeScroll(page);
 
       try {
-        await page.waitForSelector('#cdTable tbody tr', { timeout: 15000 });
-        const detailLinks = await page.$$('#cdTable tbody tr[id^="a"] td:last-child a');
-        for (const link of detailLinks) {
-          if (link) await link.click({ delay: 50 + Math.random() * 50 });
+        await page.waitForSelector('#cdTable', { timeout: 15000 });
+        console.log('- Expanding all detail sections one by one...');
+        
+        const rows = await page.$$('#cdTable tbody tr[id^="a"]');
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const rowId = await row.evaluate(el => el.id);
+            const detailsLinkSelector = `tr#${rowId} td:last-child a`;
+            const detailsRowSelector = `tr#${rowId} + tr.accountDetails`;
+
+            const link = await page.$(detailsLinkSelector);
+            if(link) {
+                await link.click({ delay: 50 + Math.random() * 50 });
+                // Wait specifically for THIS detail row to appear
+                await page.waitForSelector(detailsRowSelector, { visible: true, timeout: 5000 });
+            }
         }
-        console.log(`- Expanded ${detailLinks.length} sections. Waiting for content...`);
-        await sleep(4000);
+        console.log(`- Successfully expanded ${rows.length} sections.`);
       } catch(e) {
-        console.log('- Warning: Could not expand all details.');
+        console.log(`- WARNING: Could not expand all details. Error: ${e.message}`);
       }
 
+      console.log('Phase 2: Extracting all data...');
       const rateDataFromPage = await page.evaluate((bankName) => {
+        // ... (The extraction logic is the same as before, it will now just find more data)
         const rates = [];
         document.querySelectorAll('#cdTable tbody tr[id^="a"]').forEach(row => {
           const accountId = row.id.replace('a', '');
           const apyEl = row.querySelector('td.apy');
           const minEl = row.querySelector('td:nth-child(2)');
           const accountNameEl = row.querySelector('td:nth-child(4)');
+          
           const detailsRow = row.nextElementSibling;
           let updatedDate = 'N/A';
           if (detailsRow && detailsRow.classList.contains('accountDetails')) {
@@ -79,11 +110,37 @@ async function fetchAndSaveData() {
 
       console.log(`- Scraped ${rateDataFromPage.length} enriched rate entries.`);
       allBankRates.push(...rateDataFromPage);
+
+      console.log('- Queueing historical data fetches...');
+      rateDataFromPage.forEach(rate => {
+        const historyPromise = page.evaluate(async (url) => {
+          try {
+            const res = await fetch(url);
+            if (res.ok) return await res.json();
+          } catch (e) { /* ignore */ }
+          return null;
+        }, `${RATE_HISTORY_API_BASE}${rate.accountId}`);
+        allHistoryPromises.push({ promise: historyPromise, context: rate });
+      });
     }
 
-    console.log('\n--- All scraping finished. Writing file... ---');
-    if (allBankRates.length === 0) throw new Error('No rates were scraped.');
-    
+    // --- Finalize ---
+    console.log(`\nWaiting for a total of ${allHistoryPromises.length} history API calls to complete...`);
+    const allHistoryResults = await Promise.all(allHistoryPromises.map(p => p.promise));
+    console.log('All API calls have completed.');
+
+    let csvContent = 'bank_name,account_name,history_date,history_apy\n';
+    allHistoryResults.forEach((result, index) => {
+      const { bank_name, account_name } = allHistoryPromises[index].context;
+      if (result && result.Date && result.Apy) {
+        for (let i = 0; i < result.Date.length; i++) {
+          csvContent += `"${bank_name}","${account_name}","${result.Date[i]}",${result.Apy[i]}\n`;
+        }
+      }
+    });
+    fs.writeFileSync(RATE_HISTORY_CSV_FILE, csvContent);
+    console.log(`Successfully saved historical data to ${RATE_HISTORY_CSV_FILE}.`);
+
     const newHistoryEntry = { date: new Date().toISOString(), data: allBankRates };
     let history = fs.existsSync(MAIN_HISTORY_FILE) ? JSON.parse(fs.readFileSync(MAIN_HISTORY_FILE)) : [];
     history.push(newHistoryEntry);
