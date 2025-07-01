@@ -13,6 +13,7 @@
    },
    "dependencies": {
       "node-fetch": "^3.3.2",
+      "puppeteer": "^24.11.1",
       "react": "^19.1.0",
       "react-dom": "^19.1.0"
    },

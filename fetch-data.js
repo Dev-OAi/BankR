@@ -1,12 +1,11 @@
-import fetch from 'node-fetch';
+import puppeteer from 'puppeteer';
 import fs from 'fs';
 
 // --- Configuration ---
 const API_URL = 'https://www.lendingtree.com/quote-engine/graphql';
-const HISTORY_FILE_PATH = './apy-history.json'; // We'll save the history here
+const HISTORY_FILE_PATH = './apy-history.json';
 
 // --- GraphQL Query ---
-// This combines both queries into one API call for efficiency
 const GQL_QUERY = `
   query CombinedQuery {
     CdRates(
@@ -37,32 +36,44 @@ const GQL_QUERY = `
   }
 `;
 
-// --- Main Function ---
+// --- Main Function using Puppeteer ---
 async function fetchAndSaveData() {
-  console.log('Starting data fetch...');
+  console.log('Starting data fetch with Puppeteer...');
+  let browser = null;
 
   try {
-    // 1. Fetch data from the API
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json',  
-	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
-	'Referer': 'https://www.lendingtree.com/', 
-	},
-      body: JSON.stringify({ query: GQL_QUERY }),
+    // 1. Launch a headless browser
+    // The '--no-sandbox' flag is important for running in GitHub Actions
+    browser = await puppeteer.launch({
+        headless: "new", // Use the new headless mode
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    if (!response.ok) {
-      throw new Error(`API call failed with status: ${response.status}`);
-    }
+    const page = await browser.newPage();
 
-    const apiResponse = await response.json();
+    // 2. Use page.evaluate to run the fetch call inside the browser's context
+    // This will send all the necessary browser headers, cookies, etc.
+    const apiResponse = await page.evaluate(async (url, query) => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // No need for User-Agent or Referer, the browser handles it!
+        },
+        body: JSON.stringify({ query: query }),
+      });
+      if (!response.ok) {
+        throw new Error(`API call failed with status: ${response.status} ${response.statusText}`);
+      }
+      return await response.json();
+    }, API_URL, GQL_QUERY);
+
+    console.log('Successfully fetched data from the API.');
+
+    // 3. Process the data (this part is the same as before)
     const rates = apiResponse.data.CdRates.results;
     const reviews = apiResponse.data.BankReviews.results;
-
-    // 2. Process and combine the data
     const bankReviewsMap = new Map(reviews.map(review => [review.bank_id, review]));
-
     const combinedData = rates.map(rate => {
       const review = bankReviewsMap.get(rate.bank_id);
       return {
@@ -72,31 +83,34 @@ async function fetchAndSaveData() {
       };
     });
 
-    console.log(`Successfully fetched and processed ${combinedData.length} rate entries.`);
+    console.log(`Successfully processed ${combinedData.length} rate entries.`);
 
-    // 3. Create the new historical entry with a timestamp
+    // 4. Create and save the historical entry (same as before)
     const newHistoryEntry = {
       date: new Date().toISOString(),
       data: combinedData,
     };
 
-    // 4. Load existing history, or create a new array
     let history = [];
     if (fs.existsSync(HISTORY_FILE_PATH)) {
       const fileContent = fs.readFileSync(HISTORY_FILE_PATH);
       history = JSON.parse(fileContent);
     }
 
-    // 5. Append the new data and save it back to the file
     history.push(newHistoryEntry);
-    fs.writeFileSync(HISTORY_FILE_PATH, JSON.stringify(history, null, 2)); // `null, 2` formats the JSON nicely
+    fs.writeFileSync(HISTORY_FILE_PATH, JSON.stringify(history, null, 2));
 
     console.log(`Successfully saved data to ${HISTORY_FILE_PATH}. Total historical records: ${history.length}.`);
 
   } catch (error) {
     console.error('An error occurred during the fetch and save process:', error);
+    process.exit(1); // Exit with a failure code to make the GitHub Action fail clearly
+  } finally {
+    if (browser) {
+      await browser.close();
+      console.log('Browser closed.');
+    }
   }
 }
 
-// Run the function
 fetchAndSaveData();
