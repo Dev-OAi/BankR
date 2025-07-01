@@ -43,5 +43,6 @@ jobs:
       - name: Commit and push if it changed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: Update daily bank rates"
+          commit_message: "chore: Update daily bank rates snapshot"
+          # Only look for changes in our one JSON file
           file_pattern: "bank-rates-history.json"
