@@ -11,140 +11,127 @@ const MAIN_HISTORY_FILE = './bank-rates-history.json';
 const RATE_HISTORY_CSV_FILE = './rate-history.csv';
 const RATE_HISTORY_API_BASE = 'https://www.depositaccounts.com/ajax/rates-history.aspx?a=';
 
-// --- "Human-like" Helper Functions ---
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// --- Helper Functions ---
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-// A function to perform random, human-like "idle" actions
-async function humanLikeDelay(page) {
-  console.log('- Performing human-like delay...');
-  const delay = 1000 + Math.random() * 2000; // 1 to 3 seconds
-  await sleep(delay);
-  // Move the mouse to a random coordinate to simulate reading/thinking
-  await page.mouse.move(Math.random() * 800 + 100, Math.random() * 800 + 100);
-  // Perform a "safe" click on the body to simulate losing and regaining window focus
-  await page.click('body', { delay: Math.random() * 100 + 50 });
-  console.log('- Delay finished.');
+async function humanLikeScroll(page) {
+    await page.evaluate(async () => {
+        const distance = 200;
+        const delay = 100 + Math.random() * 50;
+        for (let i = 0; i < document.body.scrollHeight / distance; i++) {
+            window.scrollBy(0, distance);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+    });
 }
 
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting "Super Human" scrape of bank pages...');
+  console.log('Starting "Full-Page Research Simulation" scrape...');
   let browser = null;
   const allBankRates = [];
-  let rateHistoryCsvContent = 'bank_name,account_name,history_date,history_apy\n'; // CSV Header
+  let rateHistoryCsvContent = 'bank_name,account_name,history_date,history_apy\n';
 
   try {
-    browser = await puppeteer.launch({
-      headless: "new",
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-
+    browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36');
-
-    // --- NEW: Typing Simulation to "warm up" the session ---
-    console.log('Navigating to a general page to simulate initial user activity...');
-    await page.goto('https://www.depositaccounts.com/cd/', { waitUntil: 'networkidle2' });
-
-    console.log('Simulating typing into the search bar...');
-    const searchBoxSelector = '#siteSearch'; // The ID of the search input
-    await page.waitForSelector(searchBoxSelector);
-    // Type slowly with a random delay between each keystroke to appear human
-    await page.type(searchBoxSelector, 'Best CD Rates', { delay: 120 + Math.random() * 100 });
-    await humanLikeDelay(page); // Pause after typing, as if reading suggestions
-    // We don't submit the search. The goal is just to generate human-like events.
-    console.log('Typing simulation complete.');
-    // --- End Typing Simulation ---
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
 
     for (const bank of TARGET_BANKS) {
-      console.log(`--- Scraping: ${bank.name} ---`);
+      console.log(`--- Processing Bank: ${bank.name} ---`);
       await page.goto(bank.url, { waitUntil: 'networkidle2' });
+      
+      // --- Step 1: Human-like "Research" Phase ---
+      console.log('Phase 1: Researching page...');
 
+      // Handle cookie banner if it exists
       try {
-        await page.waitForSelector('#cdTable tbody tr', { timeout: 15000 });
-        console.log('CD table found.');
+        const rejectButtonSelector = '#ccpa-banner-reject-all-btn';
+        await page.waitForSelector(rejectButtonSelector, { timeout: 5000 });
+        await page.click(rejectButtonSelector);
+        console.log('- Rejected cookie banner.');
+        await sleep(1000 + Math.random() * 1000); // Wait after closing banner
       } catch (e) {
-        console.log(`No CD table found for ${bank.name}. Skipping.`);
-        continue;
+        console.log('- No cookie banner found, continuing.');
       }
+      
+      console.log('- Scrolling down to "read" the page...');
+      await humanLikeScroll(page);
+      await sleep(1000 + Math.random() * 1500);
+      
+      console.log('- Expanding all details sections...');
+      const detailLinks = await page.$$('#cdTable tbody tr td:last-child a');
+      for (const link of detailLinks) {
+          if (link) {
+              await link.click({ delay: 50 + Math.random() * 50 });
+          }
+      }
+      console.log(`- Expanded ${detailLinks.length} sections. Waiting for content to load...`);
+      await sleep(5000); // Give a generous wait for all details to load
 
-      const rows = await page.$$('#cdTable tbody tr');
-      console.log(`Found ${rows.length} product rows to process for ${bank.name}.`);
+      // --- Step 2: Scrape All Data At Once ---
+      console.log('Phase 2: Scraping all visible data...');
+      
+      const scrapedData = await page.evaluate((bankName) => {
+        const rates = [];
+        const rows = document.querySelectorAll('#cdTable tbody tr[id^="a"]'); // Only get data rows
+        
+        rows.forEach(row => {
+          const accountId = row.id.replace('a', '');
+          const apyEl = row.querySelector('td.apy');
+          const minEl = row.querySelector('td:nth-child(2)');
+          const accountNameEl = row.querySelector('td:nth-child(4)');
+          
+          // Now look for the details in the *next* row
+          const detailsRow = row.nextElementSibling;
+          let updatedDate = 'N/A';
+          if (detailsRow && detailsRow.classList.contains('accountDetails')) {
+            const dateEl = detailsRow.querySelector('.rate-history-date');
+            if (dateEl) {
+              updatedDate = dateEl.innerText.replace('Last updated on', '').trim();
+            }
+          }
 
-      for (const row of rows) {
-        const rowId = await row.evaluate(el => el.id);
-        if (!rowId || !rowId.startsWith('a')) continue;
-
-        const mainRateData = await row.evaluate(el => {
-          const accountId = el.id.replace('a', '');
-          const apyEl = el.querySelector('td.apy');
-          const minEl = el.querySelector('td:nth-child(2)');
-          const accountNameEl = el.querySelector('td:nth-child(4)');
-          if (!apyEl || !minEl || !accountNameEl || !accountId) return null;
-          return {
-            accountId,
-            apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
-            min_deposit: minEl.innerText.trim(),
-            account_name: accountNameEl.innerText.trim()
-          };
+          if (apyEl && minEl && accountNameEl) {
+            rates.push({
+              accountId,
+              bank_name: bankName,
+              apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
+              min_deposit: minEl.innerText.trim(),
+              account_name: accountNameEl.innerText.trim(),
+              last_updated: updatedDate
+            });
+          }
         });
-        
-        if (!mainRateData) {
-            console.log(`- Skipping a row for ${bank.name} due to missing data.`);
-            continue;
-        }
-        mainRateData.bank_name = bank.name;
-        
-        try {
-          console.log(`Processing details for: ${mainRateData.account_name}`);
-          const detailsLinkSelector = `tr#${rowId} td:last-child a`;
-          const detailsRowSelector = `tr#${rowId} + tr.accountDetails`;
+        return rates;
+      }, bank.name);
 
-          await page.evaluate(selector => document.querySelector(selector).scrollIntoView({ block: 'center' }), detailsLinkSelector);
-          await humanLikeDelay(page);
+      console.log(`- Scraped ${scrapedData.length} enriched rate entries.`);
+      allBankRates.push(...scrapedData);
 
-          await page.click(detailsLinkSelector);
-
-          await page.waitForSelector(detailsRowSelector, { visible: true, timeout: 30000 });
-          console.log('- Details row appeared.');
-
-          const updatedDate = await page.evaluate(selector => {
-              const detailsRow = document.querySelector(selector);
-              const dateEl = detailsRow.querySelector('.rate-history-date');
-              return dateEl ? dateEl.innerText.replace('Last updated on', '').trim() : 'N/A';
-          }, detailsRowSelector);
-          mainRateData.last_updated = updatedDate;
-          allBankRates.push(mainRateData);
-
-        } catch (e) {
-          console.log(`- Failed to get details for ${mainRateData.account_name}: ${e.message}`);
-          // Add the main data even if details fail, but mark as incomplete
-          mainRateData.last_updated = 'Error'; 
-          allBankRates.push(mainRateData);
-        }
-        
-        console.log(`Fetching rate history for account ID: ${mainRateData.accountId}`);
+      // --- Step 3: Scrape Historical API Data ---
+      console.log('Phase 3: Fetching historical data from API...');
+      for (const rate of scrapedData) {
         try {
             const historyResponse = await page.evaluate(async (url) => {
                 const res = await fetch(url);
+                if (!res.ok) return null; // Don't crash if one fails
                 return await res.json();
-            }, `${RATE_HISTORY_API_BASE}${mainRateData.accountId}`);
+            }, `${RATE_HISTORY_API_BASE}${rate.accountId}`);
             
             if (historyResponse && historyResponse.Date && historyResponse.Apy) {
                 for (let i = 0; i < historyResponse.Date.length; i++) {
-                    rateHistoryCsvContent += `"${bank.name}","${mainRateData.account_name}","${historyResponse.Date[i]}",${historyResponse.Apy[i]}\n`;
+                    rateHistoryCsvContent += `"${bank.name}","${rate.account_name}","${historyResponse.Date[i]}",${historyResponse.Apy[i]}\n`;
                 }
-                console.log(`- Found ${historyResponse.Date.length} historical data points.`);
             }
         } catch (e) {
-            console.log(`- Could not fetch rate history for account ${mainRateData.accountId}: ${e.message}`);
+            console.log(`- Could not fetch rate history for account ${rate.accountId}`);
         }
       }
     }
 
+    // --- Final Step: Save Files ---
     console.log('--- All scraping finished ---');
     if (allBankRates.length === 0) throw new Error('No rates were scraped. Something went wrong.');
     
