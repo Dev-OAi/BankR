@@ -1,0 +1,245 @@
+[
+  {
+    "date": "2025-07-01T03:16:39.570Z",
+    "data": [
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4.2,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "6 Month High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4.2,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "9 Month High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4.1,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "12 Month High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "18 Month High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "7 Month No-Penalty CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.95,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "2 Year High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "3 Year High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "13 Month No-Penalty CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "11 Month No-Penalty CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "20 Month Rate Bump CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "4 Year High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "5 Year High-yield CD"
+      },
+      {
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "max_deposit": "$1m",
+        "account_name": "6 Year High-yield CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 4,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "1 Year 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "6 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "9 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.7,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "18 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "24 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "30 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "36 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "48 Month 360 CD"
+      },
+      {
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "$1m",
+        "account_name": "60 Month 360 CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "6 Month High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "9 Month High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "7 Month Select CD Special"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "14 Month Select CD Special"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "12 Month High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.7,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "18 Month High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "3 Year High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "5 Year High Yield CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "2 Year Raise Your Rate CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "4 Year Raise Your Rate CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 3.4,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "11 Month No Penalty CD"
+      },
+      {
+        "bank_name": "Ally Bank",
+        "apy": 2.9,
+        "min_deposit": "$0",
+        "max_deposit": "-",
+        "account_name": "3 Month High Yield CD"
+      }
+    ]
+  }
+]
