@@ -16,7 +16,7 @@ async function fetchAndSaveData() {
   console.log('Starting "Surgical Strike" scrape...');
   let browser = null;
   const allBankRates = [];
-  let rateHistoryCsvRows = []; // Store history rows in an array
+  let rateHistoryCsvRows = []; // Store history rows in an array to build the CSV at the end
 
   try {
     browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -25,7 +25,7 @@ async function fetchAndSaveData() {
     await page.setRequestInterception(true);
     page.on('request', (req) => {
       const resourceType = req.resourceType();
-      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType) || req.url().includes('google') || req.url().includes('doubleclick')) {
+      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType) || req.url().includes('google')) {
         req.abort();
       } else {
         req.continue();
@@ -68,7 +68,7 @@ async function fetchAndSaveData() {
         rateData.bank_name = bank.name;
         allBankRates.push(rateData);
 
-        // --- FIXED: Create a promise for each history fetch and add it to our array ---
+        // Create a promise for each history fetch and add it to our array
         const historyPromise = page.evaluate(async (url) => {
             try {
                 const res = await fetch(url);
@@ -83,13 +83,13 @@ async function fetchAndSaveData() {
                 }
             }
         });
-        historyPromises.push(historyPromise); // Add the promise to the list
+        historyPromises.push(historyPromise);
       }
       
-      // --- FIXED: Wait for ALL the history fetches to complete ---
-      console.log(`Waiting for ${historyPromises.length} history API calls to finish...`);
+      // Wait for ALL the history fetches to complete before continuing
+      console.log(`Waiting for ${historyPromises.length} history API calls to finish for ${bank.name}...`);
       await Promise.all(historyPromises);
-      console.log('All history API calls finished.');
+      console.log(`All history API calls finished for ${bank.name}.`);
     }
     
     // --- Final Step: Save Files ---
@@ -103,7 +103,7 @@ async function fetchAndSaveData() {
     fs.writeFileSync(MAIN_HISTORY_FILE, JSON.stringify(history, null, 2));
     console.log(`Successfully saved main data to ${MAIN_HISTORY_FILE}.`);
     
-    // --- FIXED: Build the CSV content *after* all promises are resolved ---
+    // Build the CSV content *after* all promises are resolved
     const csvHeader = 'bank_name,account_name,history_date,history_apy\n';
     const csvContent = csvHeader + rateHistoryCsvRows.join('\n');
     fs.writeFileSync(RATE_HISTORY_CSV_FILE, csvContent);
