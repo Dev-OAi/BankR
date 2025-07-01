@@ -2,14 +2,30 @@ import puppeteer from 'puppeteer';
 import fs from 'fs';
 
 // --- Configuration ---
-const START_URL = 'https://www.depositaccounts.com/cd/';
-const HISTORY_FILE_PATH = './da-history.json'; // New file for this source
+// NEW: We define a list of target bank pages. We can add more later.
+const TARGET_BANKS = [
+  {
+    name: 'Marcus by Goldman Sachs',
+    url: 'https://www.depositaccounts.com/banks/marcus-goldman-sachs.html'
+  },
+  {
+    name: 'Capital One',
+    url: 'https://www.depositaccounts.com/banks/capital-one-360.html'
+  },
+  {
+    name: 'Ally Bank',
+    url: 'https://www.depositaccounts.com/banks/ally-bank.html'
+  }
+  // We can add more bank objects here in the future
+];
+
+const HISTORY_FILE_PATH = './bank-rates-history.json';
 
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting paginated scrape of DepositAccounts.com...');
+  console.log('Starting targeted bank page scrape...');
   let browser = null;
-  const allRates = []; // Array to hold data from all pages
+  const allBankRates = [];
 
   try {
     browser = await puppeteer.launch({
@@ -21,71 +37,59 @@ async function fetchAndSaveData() {
     await page.setViewport({ width: 1920, height: 1080 });
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36');
 
-    console.log(`Navigating to starting URL: ${START_URL}`);
-    await page.goto(START_URL, { waitUntil: 'networkidle2' });
+    // Loop through each bank in our target list
+    for (const bank of TARGET_BANKS) {
+      console.log(`--- Scraping: ${bank.name} ---`);
+      console.log(`Navigating to: ${bank.url}`);
+      await page.goto(bank.url, { waitUntil: 'networkidle2' });
 
-    let pageNum = 1;
-    while (true) {
-      console.log(`--- Scraping Page ${pageNum} ---`);
+      // Wait for the specific CD rates table to be on the page
+      try {
+        await page.waitForSelector('#cdTable', { timeout: 10000 });
+        console.log('CD table found.');
+      } catch (e) {
+        console.log(`No CD table found for ${bank.name}. Skipping.`);
+        continue; // Go to the next bank in the list
+      }
 
-      // Wait for the rate table to be visible
-      await page.waitForSelector('#rate-table-container-responsive');
-
-      // Scrape data from the current page
-      const pageRates = await page.evaluate(() => {
+      // Extract the data from the CD table
+      const cdRates = await page.evaluate((bankName) => {
         const rates = [];
-        // Select all rows in the table body
-        const rows = document.querySelectorAll('#rate-table-container-responsive tbody tr');
-        rows.forEach(row => {
-          // Use querySelector for safer access to elements that might be missing
-          const bankNameEl = row.querySelector('span[data-ga-label="Institution Name"]');
-          const termEl = row.querySelector('td.term');
-          const apyEl = row.querySelector('td.apy');
+        const table = document.querySelector('#cdTable');
+        const rows = table.querySelectorAll('tbody tr');
 
-          // Only add the row if all essential data is present
-          if (bankNameEl && termEl && apyEl) {
+        rows.forEach(row => {
+          const apyEl = row.querySelector('td.apy');
+          const minEl = row.querySelector('td:nth-child(2)'); // 2nd column
+          const maxEl = row.querySelector('td:nth-child(3)'); // 3rd column
+          const accountNameEl = row.querySelector('td:nth-child(4)'); // 4th column
+
+          if (apyEl && minEl && accountNameEl) {
             rates.push({
-              bank_name: bankNameEl.innerText.trim(),
-              term_months: parseInt(termEl.innerText.trim(), 10),
-              apy: parseFloat(apyEl.innerText.trim()),
+              bank_name: bankName, // Add the bank name to each entry
+              apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
+              min_deposit: minEl.innerText.trim(),
+              max_deposit: maxEl ? maxEl.innerText.trim() : 'N/A',
+              account_name: accountNameEl.innerText.trim()
             });
           }
         });
         return rates;
-      });
+      }, bank.name); // Pass the bank name into the evaluate function
 
-      console.log(`Found ${pageRates.length} rates on this page.`);
-      allRates.push(...pageRates);
-
-      // --- Pagination Logic ---
-      // Find the "Next" button. We use a robust selector to find the div with the correct class and text content.
-      const nextButtonSelector = 'div.rate-table-pager-prev-next';
-      const nextButton = await page.evaluateHandle((selector) => {
-          const buttons = Array.from(document.querySelectorAll(selector));
-          return buttons.find(button => button.innerText.includes('Next'));
-      }, nextButtonSelector);
-      
-      // Check if the button exists and is clickable (not disabled).
-      if (nextButton && (await nextButton.evaluate(b => !b.classList.contains('disabled')))) {
-        console.log('"Next" button found. Clicking to go to next page...');
-        await Promise.all([
-          page.waitForNavigation({ waitUntil: 'networkidle2' }), // Wait for the page to reload
-          nextButton.click() // Click the button
-        ]);
-        pageNum++;
-      } else {
-        console.log('"Next" button not found or is disabled. Reached the last page.');
-        break; // Exit the loop
-      }
+      console.log(`Found ${cdRates.length} CD rates for ${bank.name}.`);
+      allBankRates.push(...cdRates);
     }
 
     console.log('--- Scraping finished ---');
-    console.log(`Total rates found across all pages: ${allRates.length}`);
+    if (allBankRates.length === 0) {
+      throw new Error('No rates were scraped. Something went wrong.');
+    }
 
     // Create and save the historical entry
     const newHistoryEntry = {
       date: new Date().toISOString(),
-      data: allRates,
+      data: allBankRates,
     };
 
     let history = [];
@@ -97,7 +101,7 @@ async function fetchAndSaveData() {
     history.push(newHistoryEntry);
     fs.writeFileSync(HISTORY_FILE_PATH, JSON.stringify(history, null, 2));
 
-    console.log(`Successfully saved data to ${HISTORY_FILE_PATH}.`);
+    console.log(`Successfully saved data to ${HISTORY_FILE_PATH}. Total rates: ${allBankRates.length}`);
 
   } catch (error) {
     console.error('An error occurred during the scrape:', error);
