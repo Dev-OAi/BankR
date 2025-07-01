@@ -15,14 +15,14 @@ const RATE_HISTORY_API_BASE = 'https://www.depositaccounts.com/ajax/rates-histor
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function humanLikeScroll(page) {
-    await page.evaluate(async () => {
-        const distance = 250;
-        const delay = 100 + Math.random() * 100;
-        for (let i = 0; i < document.body.scrollHeight / distance; i++) {
-            window.scrollBy(0, distance);
-            await new Promise(resolve => setTimeout(resolve, delay));
-        }
-    });
+  await page.evaluate(async () => {
+    const distance = 250;
+    const delay = 100 + Math.random() * 100;
+    for (let i = 0; i < document.body.scrollHeight / distance; i++) {
+      window.scrollBy(0, distance);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  });
 }
 
 // --- Main Function ---
@@ -39,6 +39,7 @@ async function fetchAndSaveData() {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
     await page.setRequestInterception(true);
     page.on('request', (req) => {
+        // Block non-essential resources to speed up page loads
         if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
             req.abort();
         } else {
@@ -123,19 +124,26 @@ async function fetchAndSaveData() {
           } catch (e) { /* ignore */ }
           return null;
         }, `${RATE_HISTORY_API_BASE}${rate.accountId}`);
+        
+        // Push an object containing the promise and its context
         allHistoryPromises.push({ promise: historyPromise, context: rate });
       });
     }
 
     // --- Finalize: Wait for all API calls and write files ---
     console.log(`\nWaiting for a total of ${allHistoryPromises.length} history API calls to complete...`);
+    // We map to just the promise for Promise.all
     const allHistoryResults = await Promise.all(allHistoryPromises.map(p => p.promise));
     console.log('All API calls have completed.');
 
+    console.log('Building final data files...');
+    
+    // Build the historical CSV content
     let csvContent = 'bank_name,account_name,history_date,history_apy\n';
     allHistoryResults.forEach((result, index) => {
+      // Use the context we saved earlier to get the correct product name
+      const { bank_name, account_name } = allHistoryPromises[index].context;
       if (result && result.Date && result.Apy) {
-        const { bank_name, account_name } = allHistoryPromises[index].context;
         for (let i = 0; i < result.Date.length; i++) {
           csvContent += `"${bank_name}","${account_name}","${result.Date[i]}",${result.Apy[i]}\n`;
         }
@@ -144,13 +152,15 @@ async function fetchAndSaveData() {
     fs.writeFileSync(RATE_HISTORY_CSV_FILE, csvContent);
     console.log(`Successfully saved historical data to ${RATE_HISTORY_CSV_FILE}.`);
 
+    // Build and save the main JSON file
     const newHistoryEntry = { date: new Date().toISOString(), data: allBankRates };
     let history = fs.existsSync(MAIN_HISTORY_FILE) ? JSON.parse(fs.readFileSync(MAIN_HISTORY_FILE)) : [];
     history.push(newHistoryEntry);
     fs.writeFileSync(MAIN_HISTORY_FILE, JSON.stringify(history, null, 2));
     console.log(`Successfully saved main data to ${MAIN_HISTORY_FILE}.`);
 
-  } catch (error) {
+  } catch (error)
+ {
     console.error('An error occurred during the scrape:', error);
     process.exit(1);
   } finally {
