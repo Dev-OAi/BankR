@@ -27,7 +27,7 @@ async function humanLikeScroll(page) {
 
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting "Full Research Simulation" scrape...');
+  console.log('Starting "Patient Researcher" scrape...');
   let browser = null;
   const allBankRates = [];
   const allHistoryPromises = [];
@@ -37,21 +37,11 @@ async function fetchAndSaveData() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
-    await page.setRequestInterception(true);
-    page.on('request', (req) => {
-        // Block non-essential resources to speed up page loads
-        if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
-            req.abort();
-        } else {
-            req.continue();
-        }
-    });
 
     for (const bank of TARGET_BANKS) {
       console.log(`\n--- Processing Bank: ${bank.name} ---`);
       await page.goto(bank.url, { waitUntil: 'networkidle2', timeout: 60000 });
       
-      // --- Phase 1: Human-like "Research" ---
       console.log('Phase 1: Researching page...');
       try {
         await page.waitForSelector('#ccpa-banner-reject-all-btn', { timeout: 5000 });
@@ -61,10 +51,10 @@ async function fetchAndSaveData() {
         console.log('- No cookie banner found.');
       }
       
-      console.log('- Scrolling to bottom and back up...');
+      console.log('- Scrolling to ensure all elements are loaded...');
       await humanLikeScroll(page);
       await sleep(500);
-      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.evaluate(() => window.scrollTo(0, 0)); // Scroll back to top
       await sleep(1000);
 
       try {
@@ -74,13 +64,12 @@ async function fetchAndSaveData() {
         for (const link of detailLinks) {
           if (link) await link.click({ delay: 50 + Math.random() * 50 });
         }
-        console.log(`- Expanded ${detailLinks.length} sections. Waiting for content to load...`);
-        await sleep(3000); // Wait for all JS to render after clicks
+        console.log(`- Expanded ${detailLinks.length} sections. Waiting for content to render...`);
+        await sleep(4000); // Generous wait for all JS to render after clicks
       } catch(e) {
-        console.log('- Could not find or expand details. Skipping to extraction.');
+        console.log('- Warning: Could not find or expand all details.');
       }
 
-      // --- Phase 2: Extract All Data ---
       console.log('Phase 2: Extracting all visible data...');
       const rateDataFromPage = await page.evaluate((bankName) => {
         const rates = [];
@@ -114,7 +103,6 @@ async function fetchAndSaveData() {
       console.log(`- Scraped ${rateDataFromPage.length} enriched rate entries.`);
       allBankRates.push(...rateDataFromPage);
 
-      // --- Phase 3: Queue Historical API Calls ---
       console.log('- Queueing historical data fetches...');
       rateDataFromPage.forEach(rate => {
         const historyPromise = page.evaluate(async (url) => {
@@ -124,24 +112,17 @@ async function fetchAndSaveData() {
           } catch (e) { /* ignore */ }
           return null;
         }, `${RATE_HISTORY_API_BASE}${rate.accountId}`);
-        
-        // Push an object containing the promise and its context
         allHistoryPromises.push({ promise: historyPromise, context: rate });
       });
     }
 
-    // --- Finalize: Wait for all API calls and write files ---
     console.log(`\nWaiting for a total of ${allHistoryPromises.length} history API calls to complete...`);
-    // We map to just the promise for Promise.all
     const allHistoryResults = await Promise.all(allHistoryPromises.map(p => p.promise));
     console.log('All API calls have completed.');
 
     console.log('Building final data files...');
-    
-    // Build the historical CSV content
     let csvContent = 'bank_name,account_name,history_date,history_apy\n';
     allHistoryResults.forEach((result, index) => {
-      // Use the context we saved earlier to get the correct product name
       const { bank_name, account_name } = allHistoryPromises[index].context;
       if (result && result.Date && result.Apy) {
         for (let i = 0; i < result.Date.length; i++) {
@@ -152,15 +133,13 @@ async function fetchAndSaveData() {
     fs.writeFileSync(RATE_HISTORY_CSV_FILE, csvContent);
     console.log(`Successfully saved historical data to ${RATE_HISTORY_CSV_FILE}.`);
 
-    // Build and save the main JSON file
     const newHistoryEntry = { date: new Date().toISOString(), data: allBankRates };
     let history = fs.existsSync(MAIN_HISTORY_FILE) ? JSON.parse(fs.readFileSync(MAIN_HISTORY_FILE)) : [];
     history.push(newHistoryEntry);
     fs.writeFileSync(MAIN_HISTORY_FILE, JSON.stringify(history, null, 2));
     console.log(`Successfully saved main data to ${MAIN_HISTORY_FILE}.`);
 
-  } catch (error)
- {
+  } catch (error) {
     console.error('An error occurred during the scrape:', error);
     process.exit(1);
   } finally {
