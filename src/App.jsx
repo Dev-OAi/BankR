@@ -1,13 +1,12 @@
-// src/App.jsx - This is the new Master Layout component
+// src/App.jsx - The Master Layout
 
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 function App() {
-  // This component now only contains the shared layout
   return (
-    <div className="min-h-screen font-sans">
-      {/* The navigation bar lives here, and will be on every page */}
+    <div className="bg-gray-900 text-white min-h-screen">
+      {/* This navigation bar will appear on EVERY page */}
       <nav className="bg-gray-800 p-4 text-center sticky top-0 z-10">
         <Link to="/" className="text-xl font-bold text-cyan-400 mx-4 hover:text-white transition-colors">
           Live Rates (Bankrate)
@@ -18,7 +17,7 @@ function App() {
       </nav>
       
       <main>
-        {/* The active page component (BankrateRates or HistoricalRates) will be rendered here */}
+        {/* The active page component will be rendered here */}
         <Outlet />
       </main>
     </div>
