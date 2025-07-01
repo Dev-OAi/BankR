@@ -2,124 +2,90 @@ import puppeteer from 'puppeteer';
 import fs from 'fs';
 
 // --- Configuration ---
-const API_URL = 'https://www.lendingtree.com/quote-engine/graphql';
-const HISTORY_FILE_PATH = './apy-history.json';
-const HOME_PAGE_URL = 'https://www.lendingtree.com/';
+const START_URL = 'https://www.depositaccounts.com/cd/';
+const HISTORY_FILE_PATH = './da-history.json'; // New file for this source
 
-// --- GraphQL Query ---
-const GQL_QUERY = `
-  query CombinedQuery {
-    CdRates(
-      where: {
-        AND: [
-          { cd_term_months: { in: [6, 12, 60] } }
-          { apy: { gte: 5 } }
-        ]
-      }
-      limit: 100
-    ) {
-      results {
-        id
-        bank_id
-        apy
-        cd_term_months
-        min_deposit
-      }
-    }
-    BankReviews(limit: 500) {
-      results {
-        id
-        bank_id
-        bank_name
-        bank_logo
-      }
-    }
-  }
-`;
-
-// --- Helper function for random delays ---
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// --- Main Function using Puppeteer ---
+// --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting "Human Simulation" data fetch with Puppeteer...');
+  console.log('Starting paginated scrape of DepositAccounts.com...');
   let browser = null;
+  const allRates = []; // Array to hold data from all pages
 
   try {
-    // Launch a headless browser
     browser = await puppeteer.launch({
       headless: "new",
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
-
-    // Set a realistic viewport and user agent
     await page.setViewport({ width: 1920, height: 1080 });
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36');
 
-    // Navigate to the homepage to establish a valid origin and get cookies.
-    console.log(`Navigating to ${HOME_PAGE_URL}...`);
-    await page.goto(HOME_PAGE_URL, { waitUntil: 'networkidle2' });
-    console.log('Navigation successful. Page is loaded.');
+    console.log(`Navigating to starting URL: ${START_URL}`);
+    await page.goto(START_URL, { waitUntil: 'networkidle2' });
 
-    // --- Human-like Interaction ---
-    console.log('Simulating human interaction (scrolling and waiting)...');
-    // Scroll down the page slowly to trigger any lazy-loaded scripts
-    await page.evaluate(async () => {
-      const distance = 100; // should be less than or equal to window.innerHeight
-      const delay = 100;
-      for (let i = 0; i < document.body.scrollHeight / distance; i++) {
-        window.scrollBy(0, distance);
-        await new Promise(resolve => setTimeout(resolve, delay + Math.random() * 50)); // random small delay
-      }
-    });
-    console.log('Scrolling finished.');
+    let pageNum = 1;
+    while (true) {
+      console.log(`--- Scraping Page ${pageNum} ---`);
 
-    // Wait for a few seconds as if a user is reading
-    const randomWait = 5000 + Math.random() * 3000; // Wait between 5 and 8 seconds
-    console.log(`Waiting for ${Math.round(randomWait / 1000)} seconds...`);
-    await sleep(randomWait);
-    console.log('Wait finished.');
-    // --- End Human-like Interaction ---
+      // Wait for the rate table to be visible
+      await page.waitForSelector('#rate-table-container-responsive');
 
+      // Scrape data from the current page
+      const pageRates = await page.evaluate(() => {
+        const rates = [];
+        // Select all rows in the table body
+        const rows = document.querySelectorAll('#rate-table-container-responsive tbody tr');
+        rows.forEach(row => {
+          // Use querySelector for safer access to elements that might be missing
+          const bankNameEl = row.querySelector('span[data-ga-label="Institution Name"]');
+          const termEl = row.querySelector('td.term');
+          const apyEl = row.querySelector('td.apy');
 
-    console.log('Attempting to fetch data from API...');
-    const apiResponse = await page.evaluate(async (url, query) => {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: query }),
+          // Only add the row if all essential data is present
+          if (bankNameEl && termEl && apyEl) {
+            rates.push({
+              bank_name: bankNameEl.innerText.trim(),
+              term_months: parseInt(termEl.innerText.trim(), 10),
+              apy: parseFloat(apyEl.innerText.trim()),
+            });
+          }
+        });
+        return rates;
       });
-      if (!response.ok) {
-        throw new Error(`API call failed with status: ${response.status} ${response.statusText}`);
+
+      console.log(`Found ${pageRates.length} rates on this page.`);
+      allRates.push(...pageRates);
+
+      // --- Pagination Logic ---
+      // Find the "Next" button. We use a robust selector to find the div with the correct class and text content.
+      const nextButtonSelector = 'div.rate-table-pager-prev-next';
+      const nextButton = await page.evaluateHandle((selector) => {
+          const buttons = Array.from(document.querySelectorAll(selector));
+          return buttons.find(button => button.innerText.includes('Next'));
+      }, nextButtonSelector);
+      
+      // Check if the button exists and is clickable (not disabled).
+      if (nextButton && (await nextButton.evaluate(b => !b.classList.contains('disabled')))) {
+        console.log('"Next" button found. Clicking to go to next page...');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'networkidle2' }), // Wait for the page to reload
+          nextButton.click() // Click the button
+        ]);
+        pageNum++;
+      } else {
+        console.log('"Next" button not found or is disabled. Reached the last page.');
+        break; // Exit the loop
       }
-      return await response.json();
-    }, API_URL, GQL_QUERY);
+    }
 
-    console.log('Successfully fetched data from the API.');
+    console.log('--- Scraping finished ---');
+    console.log(`Total rates found across all pages: ${allRates.length}`);
 
-    // Process the data (this part is the same as before)
-    const rates = apiResponse.data.CdRates.results;
-    const reviews = apiResponse.data.BankReviews.results;
-    const bankReviewsMap = new Map(reviews.map(review => [review.bank_id, review]));
-    const combinedData = rates.map(rate => {
-      const review = bankReviewsMap.get(rate.bank_id);
-      return {
-        ...rate,
-        bank_name: review ? review.bank_name : 'Unknown Bank',
-        bank_logo: review ? review.bank_logo : null,
-      };
-    });
-
-    console.log(`Successfully processed ${combinedData.length} rate entries.`);
-
-    // Create and save the historical entry (same as before)
+    // Create and save the historical entry
     const newHistoryEntry = {
       date: new Date().toISOString(),
-      data: combinedData,
+      data: allRates,
     };
 
     let history = [];
@@ -131,10 +97,10 @@ async function fetchAndSaveData() {
     history.push(newHistoryEntry);
     fs.writeFileSync(HISTORY_FILE_PATH, JSON.stringify(history, null, 2));
 
-    console.log(`Successfully saved data to ${HISTORY_FILE_PATH}. Total historical records: ${history.length}.`);
+    console.log(`Successfully saved data to ${HISTORY_FILE_PATH}.`);
 
   } catch (error) {
-    console.error('An error occurred during the fetch and save process:', error);
+    console.error('An error occurred during the scrape:', error);
     process.exit(1);
   } finally {
     if (browser) {
