@@ -44,4 +44,8 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Update APY history data"
+<<<<<<< HEAD
           file_pattern: "bank-rates-history.json"
+=======
+          file_pattern: "bank-rates-history.json"
+>>>>>>> 9ab3542d44bd35a21a11222cb62aea48e52bc8f2
