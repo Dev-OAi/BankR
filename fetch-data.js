@@ -16,39 +16,52 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// NEW: A function to perform random, human-like "idle" actions
+// A function to perform random, human-like "idle" actions
 async function humanLikeDelay(page) {
-    console.log('- Performing human-like delay...');
-    const delay = 1000 + Math.random() * 2000; // 1 to 3 seconds
-    await sleep(delay);
-    // Move the mouse to a random coordinate
-    await page.mouse.move(Math.random() * 800 + 100, Math.random() * 800 + 100);
-    // Perform a "safe" click on the body to simulate losing focus
-    await page.click('body', { delay: Math.random() * 100 + 50 });
-    console.log('- Delay finished.');
+  console.log('- Performing human-like delay...');
+  const delay = 1000 + Math.random() * 2000; // 1 to 3 seconds
+  await sleep(delay);
+  // Move the mouse to a random coordinate to simulate reading/thinking
+  await page.mouse.move(Math.random() * 800 + 100, Math.random() * 800 + 100);
+  // Perform a "safe" click on the body to simulate losing and regaining window focus
+  await page.click('body', { delay: Math.random() * 100 + 50 });
+  console.log('- Delay finished.');
 }
-
 
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting "Distracted Human" scrape of bank pages...');
+  console.log('Starting "Super Human" scrape of bank pages...');
   let browser = null;
   const allBankRates = [];
-  let rateHistoryCsvContent = 'bank_name,account_name,history_date,history_apy\n';
+  let rateHistoryCsvContent = 'bank_name,account_name,history_date,history_apy\n'; // CSV Header
 
   try {
     browser = await puppeteer.launch({
       headless: "new",
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36');
 
+    // --- NEW: Typing Simulation to "warm up" the session ---
+    console.log('Navigating to a general page to simulate initial user activity...');
+    await page.goto('https://www.depositaccounts.com/cd/', { waitUntil: 'networkidle2' });
+
+    console.log('Simulating typing into the search bar...');
+    const searchBoxSelector = '#siteSearch'; // The ID of the search input
+    await page.waitForSelector(searchBoxSelector);
+    // Type slowly with a random delay between each keystroke to appear human
+    await page.type(searchBoxSelector, 'Best CD Rates', { delay: 120 + Math.random() * 100 });
+    await humanLikeDelay(page); // Pause after typing, as if reading suggestions
+    // We don't submit the search. The goal is just to generate human-like events.
+    console.log('Typing simulation complete.');
+    // --- End Typing Simulation ---
+
     for (const bank of TARGET_BANKS) {
       console.log(`--- Scraping: ${bank.name} ---`);
       await page.goto(bank.url, { waitUntil: 'networkidle2' });
-      await humanLikeDelay(page); // Initial delay after page load
 
       try {
         await page.waitForSelector('#cdTable tbody tr', { timeout: 15000 });
@@ -71,13 +84,18 @@ async function fetchAndSaveData() {
           const minEl = el.querySelector('td:nth-child(2)');
           const accountNameEl = el.querySelector('td:nth-child(4)');
           if (!apyEl || !minEl || !accountNameEl || !accountId) return null;
-          return { accountId, apy: parseFloat(apyEl.innerText.replace('%', '').trim()), min_deposit: minEl.innerText.trim(), account_name: accountNameEl.innerText.trim() };
+          return {
+            accountId,
+            apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
+            min_deposit: minEl.innerText.trim(),
+            account_name: accountNameEl.innerText.trim()
+          };
         });
-
+        
         if (!mainRateData) {
             console.log(`- Skipping a row for ${bank.name} due to missing data.`);
             continue;
-        };
+        }
         mainRateData.bank_name = bank.name;
         
         try {
@@ -86,7 +104,7 @@ async function fetchAndSaveData() {
           const detailsRowSelector = `tr#${rowId} + tr.accountDetails`;
 
           await page.evaluate(selector => document.querySelector(selector).scrollIntoView({ block: 'center' }), detailsLinkSelector);
-          await humanLikeDelay(page); // Pause before clicking
+          await humanLikeDelay(page);
 
           await page.click(detailsLinkSelector);
 
@@ -100,8 +118,12 @@ async function fetchAndSaveData() {
           }, detailsRowSelector);
           mainRateData.last_updated = updatedDate;
           allBankRates.push(mainRateData);
+
         } catch (e) {
-            console.log(`- Failed to get details for ${mainRateData.account_name}: ${e.message}`);
+          console.log(`- Failed to get details for ${mainRateData.account_name}: ${e.message}`);
+          // Add the main data even if details fail, but mark as incomplete
+          mainRateData.last_updated = 'Error'; 
+          allBankRates.push(mainRateData);
         }
         
         console.log(`Fetching rate history for account ID: ${mainRateData.accountId}`);
