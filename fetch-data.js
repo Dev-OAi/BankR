@@ -4,6 +4,7 @@ import fs from 'fs';
 // --- Configuration ---
 const API_URL = 'https://www.lendingtree.com/quote-engine/graphql';
 const HISTORY_FILE_PATH = './apy-history.json';
+const HOME_PAGE_URL = 'https://www.lendingtree.com/';
 
 // --- GraphQL Query ---
 const GQL_QUERY = `
@@ -36,30 +37,60 @@ const GQL_QUERY = `
   }
 `;
 
+// --- Helper function for random delays ---
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // --- Main Function using Puppeteer ---
 async function fetchAndSaveData() {
-  console.log('Starting data fetch with Puppeteer...');
+  console.log('Starting "Human Simulation" data fetch with Puppeteer...');
   let browser = null;
 
   try {
-    // 1. Launch a headless browser
-    // The '--no-sandbox' flag is important for running in GitHub Actions
+    // Launch a headless browser
     browser = await puppeteer.launch({
-        headless: "new", // Use the new headless mode
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: "new",
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
 
-    // 2. Use page.evaluate to run the fetch call inside the browser's context
-    // This will send all the necessary browser headers, cookies, etc.
+    // Set a realistic viewport and user agent
+    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36');
+
+    // Navigate to the homepage to establish a valid origin and get cookies.
+    console.log(`Navigating to ${HOME_PAGE_URL}...`);
+    await page.goto(HOME_PAGE_URL, { waitUntil: 'networkidle2' });
+    console.log('Navigation successful. Page is loaded.');
+
+    // --- Human-like Interaction ---
+    console.log('Simulating human interaction (scrolling and waiting)...');
+    // Scroll down the page slowly to trigger any lazy-loaded scripts
+    await page.evaluate(async () => {
+      const distance = 100; // should be less than or equal to window.innerHeight
+      const delay = 100;
+      for (let i = 0; i < document.body.scrollHeight / distance; i++) {
+        window.scrollBy(0, distance);
+        await new Promise(resolve => setTimeout(resolve, delay + Math.random() * 50)); // random small delay
+      }
+    });
+    console.log('Scrolling finished.');
+
+    // Wait for a few seconds as if a user is reading
+    const randomWait = 5000 + Math.random() * 3000; // Wait between 5 and 8 seconds
+    console.log(`Waiting for ${Math.round(randomWait / 1000)} seconds...`);
+    await sleep(randomWait);
+    console.log('Wait finished.');
+    // --- End Human-like Interaction ---
+
+
+    console.log('Attempting to fetch data from API...');
     const apiResponse = await page.evaluate(async (url, query) => {
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // No need for User-Agent or Referer, the browser handles it!
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: query }),
       });
       if (!response.ok) {
@@ -70,7 +101,7 @@ async function fetchAndSaveData() {
 
     console.log('Successfully fetched data from the API.');
 
-    // 3. Process the data (this part is the same as before)
+    // Process the data (this part is the same as before)
     const rates = apiResponse.data.CdRates.results;
     const reviews = apiResponse.data.BankReviews.results;
     const bankReviewsMap = new Map(reviews.map(review => [review.bank_id, review]));
@@ -85,7 +116,7 @@ async function fetchAndSaveData() {
 
     console.log(`Successfully processed ${combinedData.length} rate entries.`);
 
-    // 4. Create and save the historical entry (same as before)
+    // Create and save the historical entry (same as before)
     const newHistoryEntry = {
       date: new Date().toISOString(),
       data: combinedData,
@@ -104,7 +135,7 @@ async function fetchAndSaveData() {
 
   } catch (error) {
     console.error('An error occurred during the fetch and save process:', error);
-    process.exit(1); // Exit with a failure code to make the GitHub Action fail clearly
+    process.exit(1);
   } finally {
     if (browser) {
       await browser.close();
