@@ -1,0 +1,47 @@
+# .github/workflows/fetch-data.yml
+
+name: Fetch APY Data
+
+# Controls when the action will run
+on:
+  # Allows you to run this workflow manually from the Actions tab on GitHub
+  workflow_dispatch:
+
+  # Runs the job on a schedule (e.g., every day at 8:00 AM UTC)
+  schedule:
+    - cron: '0 8 * * *'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest # Use the latest version of Ubuntu
+
+    # Grant the GITHUB_TOKEN permissions to write to the repository
+    permissions:
+      contents: write
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a recent, stable version of Node.js
+
+      # Step 3: Install the project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run the data fetching script
+      - name: Run the data fetch script
+        run: node fetch-data.js
+
+      # Step 5: Commit the updated apy-history.json file
+      - name: Commit and push if it changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Update APY history data"
+          file_pattern: "apy-history.json"
