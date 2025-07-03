@@ -640,7 +640,7 @@ export default function BankrateRates() { // <-- RENAMED from App to BankrateRat
                         onClick={() => setIsSidebarOpen(false)}
                         className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]'}`}
                     >
-                        Live Rates (Bankrate)
+                        Live Rates
                     </Link>
                     {/* --- ADDED: The new link to the Historical Dashboard --- */}
                     <Link
