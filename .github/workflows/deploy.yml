@@ -1,0 +1,60 @@
+# .github/workflows/deploy.yml
+
+name: Deploy React App to GitHub Pages
+
+# This is the trigger. It runs the workflow automatically on every
+# push to the "main" branch.
+on:
+  push:
+    branches: ["main"]
+  # This also allows you to run it manually from the Actions tab
+  workflow_dispatch:
+
+# These permissions are required for the action to deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# This ensures only one deployment runs at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # The build job, which prepares your website files
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install
+      - name: Build the website
+        # This will run the "vite build && cp dist/index.html dist/404.html" command
+        # that we configured in your package.json.
+        run: npm run build
+      - name: Prepare for deployment
+        uses: actions/configure-pages@v5
+      - name: Upload production artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # This is the folder containing the final website
+          path: './dist'
+
+  # The deployment job, which pushes the built files to the live site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build # This job will not run until the 'build' job is successful
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
