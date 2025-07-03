@@ -45,4 +45,4 @@ jobs:
         with:
           commit_message: "chore: Update daily bank rates snapshot"
           # Only look for changes in our one JSON file
-          file_pattern: "bank-rates-history.json"
+          file_pattern: "public/**/*.json"

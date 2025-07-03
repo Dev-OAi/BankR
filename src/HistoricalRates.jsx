@@ -407,7 +407,7 @@ function HistoricalRates() {
       <div className={`container mx-auto p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}>
         <header className="text-center my-8">
             <h1 className={`text-4xl font-bold mb-2 ${theme === 'light' ? 'text-gray-800' : 'text-cyan-400'}`}>Historical Rate Dashboard</h1>
-            <p className={`text-lg ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>Daily Scraped Data from DepositAccounts.com</p>
+            
         </header>
         
         {loading && <p className={`text-center text-xl ${theme === 'light' ? 'text-gray-700' : ''}`}>Loading historical data...</p>}
