@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs';
+import path from 'path';
 
 // --- Configuration ---
 const TARGET_BANKS = [
@@ -7,13 +8,25 @@ const TARGET_BANKS = [
   { name: 'Capital One', url: 'https://www.depositaccounts.com/banks/capital-one-360.html' },
   { name: 'Ally Bank', url: 'https://www.depositaccounts.com/banks/ally-bank.html' }
 ];
-const HISTORY_FILE = './bank-rates-history.json';
+const HISTORY_DIR = './public/history';
+const LATEST_RATES_FILE = './public/latest_rates.json';
+
+// --- Helper Function to Sanitize Bank Names for Filenames ---
+const sanitizeBankName = (name) => {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+};
 
 // --- Main Function ---
 async function fetchAndSaveData() {
-  console.log('Starting simplified daily snapshot scrape...');
+  console.log('Starting daily snapshot scrape...');
   let browser = null;
   const allCurrentRates = [];
+
+  // Ensure the history directory exists
+  if (!fs.existsSync(HISTORY_DIR)) {
+    fs.mkdirSync(HISTORY_DIR, { recursive: true });
+    console.log(`Created history directory at ${HISTORY_DIR}`);
+  }
 
   try {
     browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox', '--disable-setuid-sandbox'] });
@@ -53,16 +66,27 @@ async function fetchAndSaveData() {
       }, bank.name);
 
       allCurrentRates.push(...rateDataFromPage);
+
+      // --- Update Individual Bank History ---
+      const sanitizedName = sanitizeBankName(bank.name);
+      const bankHistoryFile = path.join(HISTORY_DIR, `${sanitizedName}.json`);
+      let bankHistory = fs.existsSync(bankHistoryFile) ? JSON.parse(fs.readFileSync(bankHistoryFile)) : [];
+      
+      const newBankHistoryEntry = {
+        date: new Date().toISOString(),
+        data: rateDataFromPage
+      };
+      bankHistory.push(newBankHistoryEntry);
+      fs.writeFileSync(bankHistoryFile, JSON.stringify(bankHistory, null, 2));
+      console.log(`  - Saved snapshot for ${bank.name} to ${bankHistoryFile}`);
     }
 
     console.log('--- All scraping finished. Saving new daily snapshot. ---');
     if (allCurrentRates.length === 0) throw new Error('No rates were scraped.');
     
-    const newHistoryEntry = { date: new Date().toISOString(), data: allCurrentRates };
-    let history = fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE)) : [];
-    history.push(newHistoryEntry);
-    fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
-    console.log(`Successfully saved new snapshot to ${HISTORY_FILE}.`);
+    // --- Save the Latest Rates File ---
+    fs.writeFileSync(LATEST_RATES_FILE, JSON.stringify(allCurrentRates, null, 2));
+    console.log(`Successfully saved latest rates to ${LATEST_RATES_FILE}.`);
 
   } catch (error) {
     console.error('An error occurred during the scrape:', error);

@@ -634,6 +634,14 @@ export default function BankrateRates() { // <-- RENAMED from App to BankrateRat
                     </svg>
                 </button>
                 <nav className="mt-8 flex flex-col space-y-4">
+                    {/* --- ADDED: The new link to the Live Rates page --- */}
+                    <Link
+                        to="/"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]'}`}
+                    >
+                        Live Rates (Bankrate)
+                    </Link>
                     {/* --- ADDED: The new link to the Historical Dashboard --- */}
                     <Link
                         to="/history"
