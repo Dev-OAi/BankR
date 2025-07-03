@@ -1,0 +1,119 @@
+1s
+Current runner version: '2.325.0'
+Runner Image Provisioner
+Operating System
+Runner Image
+GITHUB_TOKEN Permissions
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download immutable action package 'actions/checkout@v4'
+Download immutable action package 'actions/setup-node@v4'
+Download action repository 'stefanzweifel/git-auto-commit-action@v5' (SHA:b863ae1933cb653a53c021fe36dbb774e1fb9403)
+Complete job name: fetch-and-commit
+1s
+Run actions/checkout@v4
+Syncing repository: Dev-OAi/BankR
+Getting Git version info
+Temporarily overriding HOME='/home/runner/work/_temp/7ddc9b67-1e70-4eee-88e4-1dcd99f696df' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/BankR/BankR
+Deleting the contents of '/home/runner/work/BankR/BankR'
+Initializing the repository
+Disabling automatic garbage collection
+Setting up auth
+Fetching the repository
+Determining the checkout info
+/usr/bin/git sparse-checkout disable
+/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Checking out the ref
+/usr/bin/git log -1 --format=%H
+903fb1927d07b251acb99014c18da72c8b4f3418
+0s
+Run actions/setup-node@v4
+Found in cache @ /opt/hostedtoolcache/node/20.19.2/x64
+Environment details
+11s
+Run npm install
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+
+added 354 packages, and audited 355 packages in 11s
+
+57 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+8s
+Run node fetch-data.js
+Starting daily snapshot scrape...
+- Processing Marcus by Goldman Sachs from https://www.depositaccounts.com/banks/marcus-goldman-sachs.html
+  - Page loaded for Marcus by Goldman Sachs.
+  - Selector found for Marcus by Goldman Sachs.
+  - Found 13 rates for Marcus by Goldman Sachs.
+  - Saved snapshot for Marcus by Goldman Sachs to public/history/marcus_by_goldman_sachs.json
+- Processing Capital One from https://www.depositaccounts.com/banks/capital-one-360.html
+  - Page loaded for Capital One.
+  - Selector found for Capital One.
+  - Found 9 rates for Capital One.
+  - Saved snapshot for Capital One to public/history/capital_one.json
+- Processing Ally Bank from https://www.depositaccounts.com/banks/ally-bank.html
+  - Page loaded for Ally Bank.
+  - Selector found for Ally Bank.
+  - Found 12 rates for Ally Bank.
+  - Saved snapshot for Ally Bank to public/history/ally_bank.json
+- Processing Chase from https://www.depositaccounts.com/banks/chase-manhattan-bank.html
+  - Page loaded for Chase.
+  - Selector found for Chase.
+  - Found 126 rates for Chase.
+  - Saved snapshot for Chase to public/history/chase.json
+--- All scraping finished. Saving new daily snapshot. ---
+Successfully saved latest rates to ./public/latest_rates.json.
+Browser closed.
+2s
+Run stefanzweifel/git-auto-commit-action@v5
+Started: bash /home/runner/work/_actions/stefanzweifel/git-auto-commit-action/v5/entrypoint.sh
+INPUT_REPOSITORY value: .
+INPUT_STATUS_OPTIONS: 
+INPUT_FILE_PATTERN: public/**/*.json
+INPUT_BRANCH value: 
+From https://github.com/Dev-OAi/BankR
+ * [new branch]      gh-pages   -> origin/gh-pages
+M	public/history/ally_bank.json
+M	public/history/capital_one.json
+M	public/history/chase.json
+M	public/history/marcus_by_goldman_sachs.json
+M	public/latest_rates.json
+Your branch is up to date with 'origin/main'.
+INPUT_ADD_OPTIONS: 
+INPUT_FILE_PATTERN: public/**/*.json
+INPUT_COMMIT_OPTIONS: 
+INPUT_COMMIT_USER_NAME: github-actions[bot]
+INPUT_COMMIT_USER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+INPUT_COMMIT_MESSAGE: chore: Update daily bank rates snapshot
+INPUT_COMMIT_AUTHOR: Dev-OAi <214211728+Dev-OAi@users.noreply.github.com>
+[main d2d367d] chore: Update daily bank rates snapshot
+ Author: Dev-OAi <214211728+Dev-OAi@users.noreply.github.com>
+ 4 files changed, 1140 insertions(+)
+INPUT_TAGGING_MESSAGE: 
+No tagging message supplied. No tag will be added.
+INPUT_PUSH_OPTIONS: 
+To https://github.com/Dev-OAi/BankR
+   903fb19..d2d367d  main -> main
+0s
+Post job cleanup.
+0s
+Post job cleanup.
+/usr/bin/git version
+git version 2.49.0
+Temporarily overriding HOME='/home/runner/work/_temp/ee6b04b1-530b-457f-bf95-5e2072b3f3ca' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/BankR/BankR
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+0s
+Cleaning up orphan processes
