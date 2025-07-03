@@ -12,3 +12,4 @@ BankR is a dynamic web application built with React and Vite, designed to empowe
 - **Dark/Light Theme:** Toggle between dark and light modes for personalized viewing.
 
 BankR aims to simplify your search for high-yield CDs, helping you make smarter financial choices.
+
