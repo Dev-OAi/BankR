@@ -23,7 +23,7 @@ function HistoricalChart({ selectedProduct, theme }) {
             setError(null);
             try {
                 const sanitizedName = sanitizeBankName(selectedProduct.bank_name);
-                const response = await fetch(`/history/${sanitizedName}.json`);
+                const response = await fetch(`/BankR/history/${sanitizedName}.json`);
                 if (!response.ok) throw new Error(`Could not fetch history for ${selectedProduct.bank_name}.`);
                 
                 const history = await response.json();
@@ -308,7 +308,7 @@ function HistoricalRates() {
     const fetchLatestRates = async () => {
       setLoading(true);
       try {
-        const response = await fetch('latest_rates.json');
+        const response = await fetch('/BankR/latest_rates.json');
         if (!response.ok) throw new Error(`Could not fetch latest rates. (Status: ${response.status})`);
         
         const data = await response.json();
