@@ -42,36 +42,59 @@ async function fetchAndSaveData() {
     });
 
     for (const bank of TARGET_BANKS) {
-      console.log(`- Processing ${bank.name}`);
-      await page.goto(bank.url, { waitUntil: 'domcontentloaded' });
-      await page.waitForSelector('#cdTable tbody tr[id^="a"]', { timeout: 15000 });
-      
-      const rateDataFromPage = await page.evaluate((bankName) => {
-        const rates = [];
-        document.querySelectorAll('#cdTable tbody tr[id^="a"]').forEach(row => {
-          const accountId = row.id.replace('a', '');
-          const apyEl = row.querySelector('td.apy');
-          const minEl = row.querySelector('td:nth-child(2)');
-          const accountNameEl = row.querySelector('td:nth-child(4)');
-          if (apyEl && minEl && accountNameEl) {
-            rates.push({
-              accountId,
-              bank_name: bankName,
-              apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
-              min_deposit: minEl.innerText.trim(),
-              account_name: accountNameEl.innerText.trim()
-            });
-          }
-        });
-        return rates;
-      }, bank.name);
+      console.log(`- Processing ${bank.name} from ${bank.url}`);
+      let rateDataFromPage = [];
+      try {
+        await page.goto(bank.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        console.log(`  - Page loaded for ${bank.name}.`);
+        await page.waitForSelector('#cdTable tbody tr[id^="a"]', { timeout: 15000 });
+        console.log(`  - Selector found for ${bank.name}.`);
+        
+        rateDataFromPage = await page.evaluate((bankName) => {
+          const rates = [];
+          document.querySelectorAll('#cdTable tbody tr[id^="a"]').forEach(row => {
+            const accountId = row.id.replace('a', '');
+            const apyEl = row.querySelector('td.apy');
+            const minEl = row.querySelector('td:nth-child(2)');
+            const accountNameEl = row.querySelector('td:nth-child(4)');
+            if (apyEl && minEl && accountNameEl) {
+              rates.push({
+                accountId,
+                bank_name: bankName,
+                apy: parseFloat(apyEl.innerText.replace('%', '').trim()),
+                min_deposit: minEl.innerText.trim(),
+                account_name: accountNameEl.innerText.trim()
+              });
+            }
+          });
+          return rates;
+        }, bank.name);
+
+        if (rateDataFromPage.length === 0) {
+          console.warn(`  - No rates found for ${bank.name} on this page.`);
+        } else {
+          console.log(`  - Found ${rateDataFromPage.length} rates for ${bank.name}.`);
+        }
+
+      } catch (scrapeError) {
+        console.error(`  - Error scraping ${bank.name}: ${scrapeError.message}`);
+        // Continue to next bank even if one fails
+      }
 
       allCurrentRates.push(...rateDataFromPage);
 
       // --- Update Individual Bank History ---
       const sanitizedName = sanitizeBankName(bank.name);
       const bankHistoryFile = path.join(HISTORY_DIR, `${sanitizedName}.json`);
-      let bankHistory = fs.existsSync(bankHistoryFile) ? JSON.parse(fs.readFileSync(bankHistoryFile)) : [];
+      let bankHistory = [];
+      if (fs.existsSync(bankHistoryFile)) {
+        try {
+          bankHistory = JSON.parse(fs.readFileSync(bankHistoryFile));
+        } catch (parseError) {
+          console.error(`  - Error parsing existing history for ${bank.name}: ${parseError.message}. Starting new history.`);
+          bankHistory = []; // Reset history if parsing fails
+        }
+      }
       
       const newBankHistoryEntry = {
         date: new Date().toISOString(),
