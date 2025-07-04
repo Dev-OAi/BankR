@@ -406,7 +406,7 @@ function HistoricalRates() {
                   onClick={() => setIsSidebarOpen(false)}
                   className={`py-2 px-4 rounded-md text-left font-semibold transition-colors duration-200 ${theme === 'light' ? 'hover:bg-gray-700' : 'hover:bg-[#30363D]'}`}
               >
-                  Live Rates (Bankrate)
+                  Live Rates
               </Link>
               <Link
                   to="/history"
