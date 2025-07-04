@@ -53,50 +53,50 @@ function HistoricalChart({ selectedProduct, theme }) {
 
     if (!selectedProduct) {
         return (
-            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-800'}`}>
-                <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>Click a row in the table below to view its historical APY trend.</p>
+            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-white' : 'bg-[#161B22]'}`}>
+                <p className={`${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Click a row in the table below to view its historical APY trend.</p>
             </div>
         );
     }
 
     if (loading) {
         return (
-            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-800'}`}>
-                <p className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>Loading chart data...</p>
+            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-white' : 'bg-[#161B22]'}`}>
+                <p className={`${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>Loading chart data...</p>
             </div>
         );
     }
     
     if (error) {
         return (
-            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-red-50' : 'bg-gray-800'}`}>
+            <div className={`mt-8 p-8 text-center rounded-lg shadow-lg ${theme === 'light' ? 'bg-red-50' : 'bg-[#161B22]'}`}>
                 <p className={`${theme === 'light' ? 'text-red-700' : 'text-red-400'}`}>{error}</p>
             </div>
         );
     }
 
     return (
-        <div className={`mt-8 p-6 rounded-lg shadow-lg ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
-            <h2 className={`text-2xl font-bold text-center mb-6 ${theme === 'light' ? 'text-indigo-600' : 'text-cyan-400'}`}>{`Historical APY for: ${selectedProduct.bank_name} - ${selectedProduct.account_name}`}</h2>
+        <div className={`mt-8 p-6 rounded-lg shadow-lg ${theme === 'light' ? 'bg-white' : 'bg-[#161B22]'}`}>
+            <h2 className={`text-2xl font-bold text-center mb-6 ${theme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]'}`}>{`Historical APY for: ${selectedProduct.bank_name} - ${selectedProduct.account_name}`}</h2>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart
                     data={chartData}
                     margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" stroke={theme === 'light' ? '#ccc' : '#4A5568'} />
-                    <XAxis dataKey="date" stroke={theme === 'light' ? '#666' : '#A0AEC0'} />
+                    <CartesianGrid strokeDasharray="3 3" stroke={theme === 'light' ? '#ccc' : '#30363D'} />
+                    <XAxis dataKey="date" stroke={theme === 'light' ? '#666' : '#8B949E'} />
                     <YAxis 
-                        stroke={theme === 'light' ? '#666' : '#A0AEC0'}
+                        stroke={theme === 'light' ? '#666' : '#8B949E'}
                         domain={['dataMin - 0.05', 'dataMax + 0.05']} 
                         tickFormatter={(value) => `${value.toFixed(2)}%`} 
                     />
                     <Tooltip 
-                        contentStyle={theme === 'light' ? { backgroundColor: '#ffffff', border: '1px solid #ccc' } : { backgroundColor: '#2D3748', border: '1px solid #4A5568' }}
-                        labelStyle={theme === 'light' ? { color: '#333' } : { color: '#E2E8F0' }}
-                        itemStyle={theme === 'light' ? { color: '#8884d8' } : { color: '#68D391' }}
+                        contentStyle={theme === 'light' ? { backgroundColor: '#ffffff', border: '1px solid #ccc' } : { backgroundColor: '#0D1117', border: '1px solid #30363D' }}
+                        labelStyle={theme === 'light' ? { color: '#333' } : { color: '#C9D1D9' }}
+                        itemStyle={theme === 'light' ? { color: '#8884d8' } : { color: '#8884d8' }}
                     />
-                    <Legend />
-                    <Line type="monotone" dataKey="apy" stroke={theme === 'light' ? '#8884d8' : '#68D391'} strokeWidth={2} activeDot={{ r: 8 }} name="APY (%)" />
+                    <Legend wrapperStyle={theme === 'dark' ? { color: '#C9D1D9' } : {}}/>
+                    <Line type="monotone" dataKey="apy" stroke="#8884d8" strokeWidth={2} activeDot={{ r: 8 }} name="APY (%)" />
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -241,7 +241,6 @@ function ColumnFilterSortPopover({
     );
 }
 
-// The main page component
 function HistoricalRates() {
   const [latestRates, setLatestRates] = useState([]);
   const [filteredRates, setFilteredRates] = useState([]);
@@ -291,9 +290,13 @@ function HistoricalRates() {
         let valB = b[sortBy];
 
         if (sortBy === 'min_deposit') {
-            valA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
-            valB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
+            valA = parseFloat(String(valA).replace(/[^0-9.-]+/g,""));
+            valB = parseFloat(String(valB).replace(/[^0-9.-]+/g,""));
+        } else if (sortBy === 'apy') {
+            valA = a.apy;
+            valB = b.apy;
         }
+
 
         if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
         if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
@@ -314,12 +317,13 @@ function HistoricalRates() {
         const data = await response.json();
         if (!data || data.length === 0) throw new Error("Latest rates file is empty.");
         
-        setLatestRates(data);
-        setUniqueBankNames([...new Set(data.map(rate => rate.bank_name))].sort());
-        setUniqueAccountNames([...new Set(data.map(rate => rate.account_name))].sort());
+        const sortedData = data.sort((a, b) => b.apy - a.apy); // Sort by APY desc by default
+        setLatestRates(sortedData);
+        setUniqueBankNames([...new Set(sortedData.map(rate => rate.bank_name))].sort());
+        setUniqueAccountNames([...new Set(sortedData.map(rate => rate.account_name))].sort());
         
-        if (data.length > 0) {
-            setSelectedProduct(data[0]);
+        if (sortedData.length > 0) {
+            setSelectedProduct(sortedData[0]);
         }
       } catch (err) {
         console.error("Fetch Error:", err);
@@ -336,7 +340,25 @@ function HistoricalRates() {
   }, [applyFiltersAndSort]);
 
   return (
-    <div className={`min-h-screen font-sans ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'}`}>
+    <div className={`min-h-screen font-sans relative ${theme === 'light' ? 'bg-gray-100' : 'bg-[#0D1117]'}`}>
+        <style>
+            {`
+            .sort-arrow {
+                margin-left: 5px;
+                display: inline-block;
+                width: 0;
+                height: 0;
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+            }
+            .sort-arrow.asc {
+                border-bottom: 4px solid currentColor;
+            }
+            .sort-arrow.desc {
+                border-top: 4px solid currentColor;
+            }
+            `}
+        </style>
       {/* Hamburger Icon */}
       <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -404,117 +426,122 @@ function HistoricalRates() {
           ></div>
       )}
 
-      <div className={`container mx-auto p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}>
-        <header className="text-center my-8">
-            <h1 className={`text-4xl font-bold mb-2 ${theme === 'light' ? 'text-gray-800' : 'text-cyan-400'}`}>Historical Rate Dashboard</h1>
-            
+      <div className={`flex flex-col items-center p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}>
+        <header className="w-full max-w-4xl text-center my-8 pt-4 md:pt-0">
+            <h1 className={`text-4xl font-bold mb-2 ${theme === 'light' ? 'text-gray-800' : 'text-[#C9D1D9]'}`}>Historical Rate Dashboard</h1>
+            <p className={`text-lg ${theme === 'light' ? 'text-gray-600' : 'text-[#8B949E]'}`}>View APY trends for savings accounts and CDs</p>
         </header>
         
-        {loading && <p className={`text-center text-xl ${theme === 'light' ? 'text-gray-700' : ''}`}>Loading historical data...</p>}
-        {error && <p className={`text-center text-xl ${theme === 'light' ? 'text-red-600' : 'text-red-500'}`}>Error: {error}</p>}
+        {loading && <p className={`text-center text-xl ${theme === 'light' ? 'text-gray-700' : 'text-[#8B949E]'}`}>Loading historical data...</p>}
+        {error && <p className={`text-center text-xl ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>Error: {error}</p>}
         
         {!loading && !error && (
-          <>
+          <div className="w-full max-w-6xl">
             <HistoricalChart selectedProduct={selectedProduct} theme={theme} />
-            <div className="overflow-x-auto">
-              <table className={`min-w-full rounded-lg shadow-lg ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}>
-                <thead>
-                  <tr className={`${theme === 'light' ? 'bg-gray-50' : 'bg-gray-700'}`}>
-                    <th className="p-4 text-left">
-                        <ColumnFilterSortPopover
-                            columnName="bank_name"
-                            filterValue={bankNameFilter}
-                            setFilterValue={setBankNameFilter}
-                            sortBy={sortBy}
-                            setSortBy={setSortBy}
-                            sortOrder={sortOrder}
-                            setSortOrder={setSortOrder}
-                            uniqueOptions={uniqueBankNames}
-                            inputType="select"
-                            placeholder="Bank Name"
-                            onApply={applyFiltersAndSort}
-                            currentTheme={theme}
-                        >
-                            Bank
-                        </ColumnFilterSortPopover>
-                    </th>
-                    <th className="p-4 text-left">
-                        <ColumnFilterSortPopover
-                            columnName="account_name"
-                            filterValue={accountNameFilter}
-                            setFilterValue={setAccountNameFilter}
-                            sortBy={sortBy}
-                            setSortBy={setSortBy}
-                            sortOrder={sortOrder}
-                            setSortOrder={setSortOrder}
-                            uniqueOptions={uniqueAccountNames}
-                            inputType="select"
-                            placeholder="Account Name"
-                            onApply={applyFiltersAndSort}
-                            currentTheme={theme}
-                        >
-                            Account Name
-                        </ColumnFilterSortPopover>
-                    </th>
-                    <th className="p-4 text-right">
-                        <ColumnFilterSortPopover
-                            columnName="apy"
-                            filterValue={apyFilter}
-                            setFilterValue={setApyFilter}
-                            sortBy={sortBy}
-                            setSortBy={setSortBy}
-                            sortOrder={sortOrder}
-                            setSortOrder={setSortOrder}
-                            inputType="number"
-                            placeholder="Min. APY"
-                            onApply={applyFiltersAndSort}
-                            currentTheme={theme}
-                        >
-                            APY
-                        </ColumnFilterSortPopover>
-                    </th>
-                    <th className="p-4 text-right">
-                        <ColumnFilterSortPopover
-                            columnName="min_deposit"
-                            filterValue={minDepositFilter}
-                            setFilterValue={setMinDepositFilter}
-                            sortBy={sortBy}
-                            setSortBy={setSortBy}
-                            sortOrder={sortOrder}
-                            setSortOrder={setSortOrder}
-                            inputType="number"
-                            placeholder="Min. Deposit"
-                            onApply={applyFiltersAndSort}
-                            currentTheme={theme}
-                        >
-                            Min. Deposit
-                        </ColumnFilterSortPopover>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRates.map((rate, index) => (
-                    <tr 
-                      key={rate.accountId} 
-                      className={`border-t transition-colors cursor-pointer 
-                        ${theme === 'light' ? 'border-gray-200 hover:bg-gray-100' : 'border-gray-700 hover:bg-gray-700/50'}
-                        ${selectedProduct?.accountId === rate.accountId ? (theme === 'light' ? 'bg-indigo-100 ring-2 ring-indigo-400' : 'bg-cyan-900/50 ring-2 ring-cyan-400') : ''}`}
-                      onClick={() => setSelectedProduct(rate)}
-                    >
-                      <td className="p-4">{rate.bank_name}</td>
-                      <td className="p-4">{rate.account_name}</td>
-                      <td className={`p-4 text-right font-bold ${theme === 'light' ? 'text-green-600' : 'text-green-400'}`}>{rate.apy.toFixed(2)}%</td>
-                      <td className="p-4 text-right">{rate.min_deposit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
+            
+            <section className={`w-full p-6 mt-8 rounded-lg overflow-x-auto relative ${theme === 'light' ? 'bg-white shadow-md' : 'bg-[#161B22] shadow-lg shadow-gray-900'}`}>
+                <h2 className={`text-2xl font-semibold mb-4 ${theme === 'light' ? 'text-gray-700' : 'text-[#C9D1D9]'}`}>Latest Rates</h2>
+                <div className="min-w-full">
+                    <table className={`min-w-full divide-y ${theme === 'light' ? 'divide-gray-200' : 'divide-[#30363D]'}`}>
+                        <thead className={`${theme === 'light' ? 'bg-gray-50' : 'bg-[#0D1117]'}`}>
+                        <tr>
+                            <th scope="col" className="relative px-3 py-2 text-left text-xs font-medium uppercase tracking-wider rounded-tl-md">
+                                <ColumnFilterSortPopover
+                                    columnName="bank_name"
+                                    filterValue={bankNameFilter}
+                                    setFilterValue={setBankNameFilter}
+                                    sortBy={sortBy}
+                                    setSortBy={setSortBy}
+                                    sortOrder={sortOrder}
+                                    setSortOrder={setSortOrder}
+                                    uniqueOptions={uniqueBankNames}
+                                    inputType="select"
+                                    placeholder="Bank Name"
+                                    onApply={applyFiltersAndSort}
+                                    currentTheme={theme}
+                                >
+                                    Bank
+                                </ColumnFilterSortPopover>
+                            </th>
+                            <th scope="col" className="relative px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
+                                <ColumnFilterSortPopover
+                                    columnName="account_name"
+                                    filterValue={accountNameFilter}
+                                    setFilterValue={setAccountNameFilter}
+                                    sortBy={sortBy}
+                                    setSortBy={setSortBy}
+                                    sortOrder={sortOrder}
+                                    setSortOrder={setSortOrder}
+                                    uniqueOptions={uniqueAccountNames}
+                                    inputType="select"
+                                    placeholder="Account Name"
+                                    onApply={applyFiltersAndSort}
+                                    currentTheme={theme}
+                                >
+                                    Account Name
+                                </ColumnFilterSortPopover>
+                            </th>
+                            <th scope="col" className="relative px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">
+                                <ColumnFilterSortPopover
+                                    columnName="apy"
+                                    filterValue={apyFilter}
+                                    setFilterValue={setApyFilter}
+                                    sortBy={sortBy}
+                                    setSortBy={setSortBy}
+                                    sortOrder={sortOrder}
+                                    setSortOrder={setSortOrder}
+                                    inputType="number"
+                                    placeholder="Min. APY"
+                                    onApply={applyFiltersAndSort}
+                                    currentTheme={theme}
+                                >
+                                    APY
+                                </ColumnFilterSortPopover>
+                            </th>
+                            <th scope="col" className="relative px-3 py-2 text-left text-xs font-medium uppercase tracking-wider rounded-tr-md">
+                                <ColumnFilterSortPopover
+                                    columnName="min_deposit"
+                                    filterValue={minDepositFilter}
+                                    setFilterValue={setMinDepositFilter}
+                                    sortBy={sortBy}
+                                    setSortBy={setSortBy}
+                                    sortOrder={sortOrder}
+                                    setSortOrder={setSortOrder}
+                                    inputType="number"
+                                    placeholder="Min. Deposit"
+                                    onApply={applyFiltersAndSort}
+                                    currentTheme={theme}
+                                >
+                                    Min. Deposit
+                                </ColumnFilterSortPopover>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody className={`divide-y ${theme === 'light' ? 'bg-white divide-gray-200' : 'bg-[#161B22] divide-[#30363D]'}`}>
+                        {filteredRates.map((rate) => (
+                            <tr 
+                            key={rate.accountId} 
+                            className={`transition-colors cursor-pointer 
+                                ${theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-[#30363D]'}
+                                ${selectedProduct?.accountId === rate.accountId ? (theme === 'light' ? 'bg-indigo-100 ring-2 ring-indigo-400' : 'bg-cyan-900/50 ring-2 ring-cyan-400') : ''}`}
+                            onClick={() => setSelectedProduct(rate)}
+                            >
+                            <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${theme === 'light' ? 'text-gray-900' : 'text-[#C9D1D9]'}`}>{rate.bank_name}</td>
+                            <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{rate.account_name}</td>
+                            <td className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${theme === 'light' ? 'text-green-600' : 'text-green-400'}`}>{rate.apy.toFixed(2)}%</td>
+                            <td className={`px-6 py-4 whitespace-nowrap text-sm ${theme === 'light' ? 'text-gray-800' : 'text-[#8B949E]'}`}>{rate.min_deposit}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+          </div>
         )}
       </div>
     </div>
   );
 }
 
+// The main page component
 export default HistoricalRates;
