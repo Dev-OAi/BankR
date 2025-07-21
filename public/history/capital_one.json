@@ -1698,5 +1698,73 @@
         "account_name": "60 Month 360 CD"
       }
     ]
+  },
+  {
+    "date": "2025-07-21T08:20:47.285Z",
+    "data": [
+      {
+        "accountId": "265239",
+        "bank_name": "Capital One",
+        "apy": 4,
+        "min_deposit": "$0",
+        "account_name": "1 Year 360 CD"
+      },
+      {
+        "accountId": "265237",
+        "bank_name": "Capital One",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "account_name": "6 Month 360 CD"
+      },
+      {
+        "accountId": "265238",
+        "bank_name": "Capital One",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "account_name": "9 Month 360 CD"
+      },
+      {
+        "accountId": "265240",
+        "bank_name": "Capital One",
+        "apy": 3.7,
+        "min_deposit": "$0",
+        "account_name": "18 Month 360 CD"
+      },
+      {
+        "accountId": "265241",
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "24 Month 360 CD"
+      },
+      {
+        "accountId": "265242",
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "30 Month 360 CD"
+      },
+      {
+        "accountId": "265243",
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "36 Month 360 CD"
+      },
+      {
+        "accountId": "265244",
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "48 Month 360 CD"
+      },
+      {
+        "accountId": "265245",
+        "bank_name": "Capital One",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "60 Month 360 CD"
+      }
+    ]
   }
 ]
