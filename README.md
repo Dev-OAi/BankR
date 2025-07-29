@@ -1,6 +1,6 @@
 Your Smart CD Rate Companion
 
-A dynamic web application built with React and Vite, designed to empower you with real-time Certificate of Deposit (CD) rates. It fetches the latest CD offers and bank review summaries from a GraphQL API, providing a comprehensive and interactive platform for comparing and finding the best CD rates.
+A dynamic web application built with React and Vite, designed to empower you with real-time Certificate of Deposit (CD) rates. It fetches the latest CD offers from a GraphQL API, providing a comprehensive and interactive platform for comparing and finding the best CD rates.
 
 ## Features:
 - **Real-time CD Rates:** Access up-to-date Certificate of Deposit rates.
