@@ -7,7 +7,8 @@ const TARGET_BANKS = [
   { name: 'Marcus by Goldman Sachs', url: 'https://www.depositaccounts.com/banks/marcus-goldman-sachs.html' },
   { name: 'Capital One', url: 'https://www.depositaccounts.com/banks/capital-one-360.html' },
   { name: 'Ally Bank', url: 'https://www.depositaccounts.com/banks/ally-bank.html' },
-  { name: 'Chase', url: 'https://www.depositaccounts.com/banks/chase-manhattan-bank.html' }
+  { name: 'Chase', url: 'https://www.depositaccounts.com/banks/chase-manhattan-bank.html' },
+  { name: 'Valley Bank', url: 'https://www.depositaccounts.com/banks/valley.html' }
 ];
 const HISTORY_DIR = './public/history';
 const LATEST_RATES_FILE = './public/latest_rates.json';
