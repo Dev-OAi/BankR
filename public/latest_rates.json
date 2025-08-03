@@ -2,23 +2,37 @@
   {
     "accountId": "314019",
     "bank_name": "Marcus by Goldman Sachs",
-    "apy": 4.2,
+    "apy": 4.4,
     "min_deposit": "$500",
     "account_name": "6 Month High-yield CD"
   },
   {
     "accountId": "314020",
     "bank_name": "Marcus by Goldman Sachs",
-    "apy": 4.2,
+    "apy": 4.3,
     "min_deposit": "$500",
     "account_name": "9 Month High-yield CD"
   },
   {
     "accountId": "314021",
     "bank_name": "Marcus by Goldman Sachs",
-    "apy": 4.1,
+    "apy": 4.2,
     "min_deposit": "$500",
     "account_name": "12 Month High-yield CD"
+  },
+  {
+    "accountId": "356342",
+    "bank_name": "Marcus by Goldman Sachs",
+    "apy": 4.15,
+    "min_deposit": "$500",
+    "account_name": "13 Month No-Penalty CD"
+  },
+  {
+    "accountId": "356343",
+    "bank_name": "Marcus by Goldman Sachs",
+    "apy": 4.15,
+    "min_deposit": "$500",
+    "account_name": "7 Month No-Penalty CD"
   },
   {
     "accountId": "314022",
@@ -26,13 +40,6 @@
     "apy": 4,
     "min_deposit": "$500",
     "account_name": "18 Month High-yield CD"
-  },
-  {
-    "accountId": "356343",
-    "bank_name": "Marcus by Goldman Sachs",
-    "apy": 4,
-    "min_deposit": "$500",
-    "account_name": "7 Month No-Penalty CD"
   },
   {
     "accountId": "314023",
@@ -49,11 +56,18 @@
     "account_name": "3 Year High-yield CD"
   },
   {
-    "accountId": "356342",
+    "accountId": "314026",
     "bank_name": "Marcus by Goldman Sachs",
     "apy": 3.9,
     "min_deposit": "$500",
-    "account_name": "13 Month No-Penalty CD"
+    "account_name": "5 Year High-yield CD"
+  },
+  {
+    "accountId": "314027",
+    "bank_name": "Marcus by Goldman Sachs",
+    "apy": 3.9,
+    "min_deposit": "$500",
+    "account_name": "6 Year High-yield CD"
   },
   {
     "accountId": "356344",
@@ -72,23 +86,16 @@
   {
     "accountId": "314025",
     "bank_name": "Marcus by Goldman Sachs",
-    "apy": 3.75,
+    "apy": 3.85,
     "min_deposit": "$500",
     "account_name": "4 Year High-yield CD"
   },
   {
-    "accountId": "314026",
-    "bank_name": "Marcus by Goldman Sachs",
-    "apy": 3.75,
-    "min_deposit": "$500",
-    "account_name": "5 Year High-yield CD"
-  },
-  {
-    "accountId": "314027",
-    "bank_name": "Marcus by Goldman Sachs",
-    "apy": 3.75,
-    "min_deposit": "$500",
-    "account_name": "6 Year High-yield CD"
+    "accountId": "265237",
+    "bank_name": "Capital One",
+    "apy": 4.2,
+    "min_deposit": "$0",
+    "account_name": "6 Month 360 CD"
   },
   {
     "accountId": "265239",
@@ -98,60 +105,53 @@
     "account_name": "1 Year 360 CD"
   },
   {
-    "accountId": "265237",
-    "bank_name": "Capital One",
-    "apy": 3.8,
-    "min_deposit": "$0",
-    "account_name": "6 Month 360 CD"
-  },
-  {
-    "accountId": "265238",
-    "bank_name": "Capital One",
-    "apy": 3.8,
-    "min_deposit": "$0",
-    "account_name": "9 Month 360 CD"
-  },
-  {
     "accountId": "265240",
     "bank_name": "Capital One",
-    "apy": 3.7,
+    "apy": 3.8,
     "min_deposit": "$0",
     "account_name": "18 Month 360 CD"
   },
   {
     "accountId": "265241",
     "bank_name": "Capital One",
-    "apy": 3.5,
+    "apy": 3.8,
     "min_deposit": "$0",
     "account_name": "24 Month 360 CD"
   },
   {
+    "accountId": "265245",
+    "bank_name": "Capital One",
+    "apy": 3.75,
+    "min_deposit": "$0",
+    "account_name": "60 Month 360 CD"
+  },
+  {
     "accountId": "265242",
     "bank_name": "Capital One",
-    "apy": 3.5,
+    "apy": 3.6,
     "min_deposit": "$0",
     "account_name": "30 Month 360 CD"
   },
   {
     "accountId": "265243",
     "bank_name": "Capital One",
-    "apy": 3.5,
+    "apy": 3.6,
     "min_deposit": "$0",
     "account_name": "36 Month 360 CD"
   },
   {
     "accountId": "265244",
     "bank_name": "Capital One",
-    "apy": 3.5,
+    "apy": 3.6,
     "min_deposit": "$0",
     "account_name": "48 Month 360 CD"
   },
   {
-    "accountId": "265245",
+    "accountId": "265238",
     "bank_name": "Capital One",
     "apy": 3.5,
     "min_deposit": "$0",
-    "account_name": "60 Month 360 CD"
+    "account_name": "9 Month 360 CD"
   },
   {
     "accountId": "5200",
@@ -191,7 +191,7 @@
   {
     "accountId": "5203",
     "bank_name": "Ally Bank",
-    "apy": 3.7,
+    "apy": 3.65,
     "min_deposit": "$0",
     "account_name": "18 Month High Yield CD"
   },
@@ -238,18 +238,18 @@
     "account_name": "3 Month High Yield CD"
   },
   {
-    "accountId": "430266",
+    "accountId": "430270",
     "bank_name": "Chase",
-    "apy": 4,
+    "apy": 3.9,
     "min_deposit": "$100k*",
-    "account_name": "4 Month CD - Relationship"
+    "account_name": "5 Month CD - Relationship"
   },
   {
-    "accountId": "430268",
+    "accountId": "430272",
     "bank_name": "Chase",
-    "apy": 4,
+    "apy": 3.9,
     "min_deposit": "$100k*",
-    "account_name": "Business 4 Month CD - Relationship"
+    "account_name": "Business 5 Month CD - Relationship"
   },
   {
     "accountId": "430282",
@@ -264,6 +264,20 @@
     "apy": 3.5,
     "min_deposit": "$100k*",
     "account_name": "Business 10 Month CD - Relationship"
+  },
+  {
+    "accountId": "430266",
+    "bank_name": "Chase",
+    "apy": 2.25,
+    "min_deposit": "$1k",
+    "account_name": "4 Month CD - Relationship"
+  },
+  {
+    "accountId": "430268",
+    "bank_name": "Chase",
+    "apy": 2.25,
+    "min_deposit": "$1k",
+    "account_name": "Business 4 Month CD - Relationship"
   },
   {
     "accountId": "43775",
@@ -483,86 +497,72 @@
     "account_name": "Business 2 Month CD - Relationship"
   },
   {
-    "accountId": "430270",
-    "bank_name": "Chase",
-    "apy": 1.25,
-    "min_deposit": "$1k",
-    "account_name": "5 Month CD - Relationship"
-  },
-  {
-    "accountId": "430272",
-    "bank_name": "Chase",
-    "apy": 1.25,
-    "min_deposit": "$1k",
-    "account_name": "Business 5 Month CD - Relationship"
-  },
-  {
     "accountId": "43773",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "6 Month CD - Relationship"
   },
   {
     "accountId": "43774",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "9 Month CD - Relationship"
   },
   {
     "accountId": "400188",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "Business 6 Month CD - Relationship"
   },
   {
     "accountId": "400190",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "Business 9 Month CD - Relationship"
   },
   {
     "accountId": "430274",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "7 Month CD - Relationship"
   },
   {
     "accountId": "430276",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "Business 7 Month CD - Relationship"
   },
   {
     "accountId": "430278",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "8 Month CD - Relationship"
   },
   {
     "accountId": "430280",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "Business 8 Month CD - Relationship"
   },
   {
     "accountId": "430286",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "11 Month CD - Relationship"
   },
   {
     "accountId": "430288",
     "bank_name": "Chase",
-    "apy": 1,
+    "apy": 1.01,
     "min_deposit": "$1k",
     "account_name": "Business 11 Month CD - Relationship"
   },
