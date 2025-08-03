@@ -10,7 +10,8 @@ const TARGET_BANKS = [
   { name: 'Chase', url: 'https://www.depositaccounts.com/banks/chase-manhattan-bank.html' },
   { name: 'Valley Bank', url: 'https://www.depositaccounts.com/banks/valley.html' },
   { name: 'Flagstar Bank', url: 'https://www.depositaccounts.com/banks/flagstar-bank.html' },
-  { name: 'TD Bank', url: 'https://www.depositaccounts.com/banks/td-bank-national-association.html' }
+  { name: 'TD Bank', url: 'https://www.depositaccounts.com/banks/td-bank-national-association.html' },
+  { name: 'Sallie Mae Bank', url: 'https://www.depositaccounts.com/banks/sallie-mae-bank.html' }
 ];
 const HISTORY_DIR = './public/history';
 const LATEST_RATES_FILE = './public/latest_rates.json';
