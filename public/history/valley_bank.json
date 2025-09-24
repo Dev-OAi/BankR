@@ -3996,5 +3996,94 @@
   {
     "date": "2025-09-23T08:16:58.628Z",
     "data": []
+  },
+  {
+    "date": "2025-09-24T08:17:04.392Z",
+    "data": [
+      {
+        "accountId": "420979",
+        "bank_name": "Valley Bank",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "account_name": "3 Month CD - In Branch"
+      },
+      {
+        "accountId": "420980",
+        "bank_name": "Valley Bank",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "account_name": "3 Month CD - Online"
+      },
+      {
+        "accountId": "408359",
+        "bank_name": "Valley Bank",
+        "apy": 3.6,
+        "min_deposit": "$500",
+        "account_name": "6 Month CD - In Branch"
+      },
+      {
+        "accountId": "408360",
+        "bank_name": "Valley Bank",
+        "apy": 3.6,
+        "min_deposit": "$500",
+        "account_name": "6 Month CD - Online"
+      },
+      {
+        "accountId": "408361",
+        "bank_name": "Valley Bank",
+        "apy": 3.5,
+        "min_deposit": "$500",
+        "account_name": "12 Month CD - In Branch"
+      },
+      {
+        "accountId": "408362",
+        "bank_name": "Valley Bank",
+        "apy": 3.5,
+        "min_deposit": "$500",
+        "account_name": "12 Month CD - Online"
+      },
+      {
+        "accountId": "22165",
+        "bank_name": "Valley Bank",
+        "apy": 3.35,
+        "min_deposit": "$500",
+        "account_name": "18 Month CD - In Branch"
+      },
+      {
+        "accountId": "401927",
+        "bank_name": "Valley Bank",
+        "apy": 3.35,
+        "min_deposit": "$500",
+        "account_name": "18 Month CD - Online"
+      },
+      {
+        "accountId": "417433",
+        "bank_name": "Valley Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "24 Month CD - In Branch"
+      },
+      {
+        "accountId": "417434",
+        "bank_name": "Valley Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "24 Month CD - Online"
+      },
+      {
+        "accountId": "430068",
+        "bank_name": "Valley Bank",
+        "apy": 3.1,
+        "min_deposit": "$500",
+        "account_name": "48 Month CD - In Branch"
+      },
+      {
+        "accountId": "430069",
+        "bank_name": "Valley Bank",
+        "apy": 3.1,
+        "min_deposit": "$500",
+        "account_name": "48 Month CD - Online"
+      }
+    ]
   }
 ]
