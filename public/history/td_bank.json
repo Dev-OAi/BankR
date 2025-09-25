@@ -9061,5 +9061,164 @@
         "account_name": "12 Month TD No Catch CD"
       }
     ]
+  },
+  {
+    "date": "2025-09-25T08:16:47.725Z",
+    "data": [
+      {
+        "accountId": "311660",
+        "bank_name": "TD Bank",
+        "apy": 4,
+        "min_deposit": "$250",
+        "account_name": "3 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "317611",
+        "bank_name": "TD Bank",
+        "apy": 3.51,
+        "min_deposit": "$250",
+        "account_name": "6 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "317577",
+        "bank_name": "TD Bank",
+        "apy": 3.25,
+        "min_deposit": "$250",
+        "account_name": "9 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "317578",
+        "bank_name": "TD Bank",
+        "apy": 3,
+        "min_deposit": "$250",
+        "account_name": "12 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "317579",
+        "bank_name": "TD Bank",
+        "apy": 3,
+        "min_deposit": "$250",
+        "account_name": "18 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "317580",
+        "bank_name": "TD Bank",
+        "apy": 3,
+        "min_deposit": "$250",
+        "account_name": "24 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "429930",
+        "bank_name": "TD Bank",
+        "apy": 3,
+        "min_deposit": "$250",
+        "account_name": "10 Month TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "311664",
+        "bank_name": "TD Bank",
+        "apy": 2.75,
+        "min_deposit": "$250",
+        "account_name": "3 Year TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "311666",
+        "bank_name": "TD Bank",
+        "apy": 2.25,
+        "min_deposit": "$250",
+        "account_name": "5 Year TD Choice Promotional CD w/ Rate Bump"
+      },
+      {
+        "accountId": "311668",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "3 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "311672",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "3 Year TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "311674",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "5 Year TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "317581",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "9 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "317582",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "12 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "317583",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "18 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "317584",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "24 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "317612",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "6 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "429931",
+        "bank_name": "TD Bank",
+        "apy": 1,
+        "min_deposit": "$250",
+        "account_name": "10 Month TD Choice Promotional CD w/ Standard Rate"
+      },
+      {
+        "accountId": "59647",
+        "bank_name": "TD Bank",
+        "apy": 0.15,
+        "min_deposit": "$250",
+        "account_name": "5 Year TD Step Rate CD"
+      },
+      {
+        "accountId": "59646",
+        "bank_name": "TD Bank",
+        "apy": 0.1,
+        "min_deposit": "$250",
+        "account_name": "3 Year TD Step Rate CD"
+      },
+      {
+        "accountId": "59644",
+        "bank_name": "TD Bank",
+        "apy": 0.05,
+        "min_deposit": "$250",
+        "account_name": "6 Month TD No Catch CD"
+      },
+      {
+        "accountId": "59645",
+        "bank_name": "TD Bank",
+        "apy": 0.05,
+        "min_deposit": "$250",
+        "account_name": "12 Month TD No Catch CD"
+      }
+    ]
   }
 ]
