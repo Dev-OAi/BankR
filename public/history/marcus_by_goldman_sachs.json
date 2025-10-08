@@ -10128,5 +10128,108 @@
         "account_name": "4 Year High-yield CD"
       }
     ]
+  },
+  {
+    "date": "2025-10-08T08:17:29.391Z",
+    "data": [
+      {
+        "accountId": "418100",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4.1,
+        "min_deposit": "$500",
+        "account_name": "14 Month High-yield CD Special"
+      },
+      {
+        "accountId": "314019",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4.05,
+        "min_deposit": "$500",
+        "account_name": "6 Month High-yield CD"
+      },
+      {
+        "accountId": "314020",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4,
+        "min_deposit": "$500",
+        "account_name": "9 Month High-yield CD"
+      },
+      {
+        "accountId": "314021",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4,
+        "min_deposit": "$500",
+        "account_name": "12 Month High-yield CD"
+      },
+      {
+        "accountId": "314022",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 4,
+        "min_deposit": "$500",
+        "account_name": "18 Month High-yield CD"
+      },
+      {
+        "accountId": "314023",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.95,
+        "min_deposit": "$500",
+        "account_name": "2 Year High-yield CD"
+      },
+      {
+        "accountId": "356342",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.95,
+        "min_deposit": "$500",
+        "account_name": "13 Month No-Penalty CD"
+      },
+      {
+        "accountId": "356344",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.95,
+        "min_deposit": "$500",
+        "account_name": "11 Month No-Penalty CD"
+      },
+      {
+        "accountId": "314024",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "account_name": "3 Year High-yield CD"
+      },
+      {
+        "accountId": "314026",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "account_name": "5 Year High-yield CD"
+      },
+      {
+        "accountId": "314027",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "account_name": "6 Year High-yield CD"
+      },
+      {
+        "accountId": "356343",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "account_name": "7 Month No-Penalty CD"
+      },
+      {
+        "accountId": "395953",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.9,
+        "min_deposit": "$500",
+        "account_name": "20 Month Rate Bump CD"
+      },
+      {
+        "accountId": "314025",
+        "bank_name": "Marcus by Goldman Sachs",
+        "apy": 3.85,
+        "min_deposit": "$500",
+        "account_name": "4 Year High-yield CD"
+      }
+    ]
   }
 ]
