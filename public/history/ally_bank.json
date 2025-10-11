@@ -10071,5 +10071,94 @@
         "account_name": "3 Month High Yield CD"
       }
     ]
+  },
+  {
+    "date": "2025-10-11T08:14:18.307Z",
+    "data": [
+      {
+        "accountId": "5200",
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "account_name": "6 Month High Yield CD"
+      },
+      {
+        "accountId": "305283",
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "account_name": "9 Month High Yield CD"
+      },
+      {
+        "accountId": "431472",
+        "bank_name": "Ally Bank",
+        "apy": 3.9,
+        "min_deposit": "$0",
+        "account_name": "7 Month Select CD Special"
+      },
+      {
+        "accountId": "305285",
+        "bank_name": "Ally Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "account_name": "12 Month High Yield CD"
+      },
+      {
+        "accountId": "431473",
+        "bank_name": "Ally Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "account_name": "14 Month Select CD Special"
+      },
+      {
+        "accountId": "5203",
+        "bank_name": "Ally Bank",
+        "apy": 3.65,
+        "min_deposit": "$0",
+        "account_name": "18 Month High Yield CD"
+      },
+      {
+        "accountId": "5205",
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "3 Year High Yield CD"
+      },
+      {
+        "accountId": "5207",
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "5 Year High Yield CD"
+      },
+      {
+        "accountId": "305287",
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "2 Year Raise Your Rate CD"
+      },
+      {
+        "accountId": "305289",
+        "bank_name": "Ally Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "4 Year Raise Your Rate CD"
+      },
+      {
+        "accountId": "27857",
+        "bank_name": "Ally Bank",
+        "apy": 3.3,
+        "min_deposit": "$0",
+        "account_name": "11 Month No Penalty CD"
+      },
+      {
+        "accountId": "305281",
+        "bank_name": "Ally Bank",
+        "apy": 3,
+        "min_deposit": "$0",
+        "account_name": "3 Month High Yield CD"
+      }
+    ]
   }
 ]
