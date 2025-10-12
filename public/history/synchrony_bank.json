@@ -8422,5 +8422,122 @@
         "account_name": "11 Month No Penalty CD"
       }
     ]
+  },
+  {
+    "date": "2025-10-12T08:15:15.117Z",
+    "data": [
+      {
+        "accountId": "264550",
+        "bank_name": "Synchrony Bank",
+        "apy": 4.1,
+        "min_deposit": "$0",
+        "account_name": "6 Month CD"
+      },
+      {
+        "accountId": "354462",
+        "bank_name": "Synchrony Bank",
+        "apy": 4.05,
+        "min_deposit": "$0",
+        "account_name": "15 Month CD"
+      },
+      {
+        "accountId": "264551",
+        "bank_name": "Synchrony Bank",
+        "apy": 4,
+        "min_deposit": "$0",
+        "account_name": "9 Month CD"
+      },
+      {
+        "accountId": "264552",
+        "bank_name": "Synchrony Bank",
+        "apy": 4,
+        "min_deposit": "$0",
+        "account_name": "12 Month CD"
+      },
+      {
+        "accountId": "264557",
+        "bank_name": "Synchrony Bank",
+        "apy": 4,
+        "min_deposit": "$0",
+        "account_name": "60 Month CD"
+      },
+      {
+        "accountId": "350754",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "account_name": "13 Month CD"
+      },
+      {
+        "accountId": "392979",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "account_name": "16 Month CD"
+      },
+      {
+        "accountId": "416457",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.85,
+        "min_deposit": "$0",
+        "account_name": "14 Month CD"
+      },
+      {
+        "accountId": "264553",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "account_name": "18 Month CD"
+      },
+      {
+        "accountId": "401497",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.8,
+        "min_deposit": "$0",
+        "account_name": "19 Month CD"
+      },
+      {
+        "accountId": "264555",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.75,
+        "min_deposit": "$0",
+        "account_name": "36 Month CD"
+      },
+      {
+        "accountId": "264554",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "24 Month CD"
+      },
+      {
+        "accountId": "264556",
+        "bank_name": "Synchrony Bank",
+        "apy": 3.5,
+        "min_deposit": "$0",
+        "account_name": "48 Month CD"
+      },
+      {
+        "accountId": "393526",
+        "bank_name": "Synchrony Bank",
+        "apy": 2.8,
+        "min_deposit": "$0",
+        "account_name": "24 Month Bump Up CD"
+      },
+      {
+        "accountId": "264549",
+        "bank_name": "Synchrony Bank",
+        "apy": 0.25,
+        "min_deposit": "$0",
+        "account_name": "3 Month CD"
+      },
+      {
+        "accountId": "393525",
+        "bank_name": "Synchrony Bank",
+        "apy": 0.25,
+        "min_deposit": "$0",
+        "account_name": "11 Month No Penalty CD"
+      }
+    ]
   }
 ]
