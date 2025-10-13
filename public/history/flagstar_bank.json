@@ -1688,5 +1688,31 @@
         "account_name": "24 Month CD Special - New Money"
       }
     ]
+  },
+  {
+    "date": "2025-10-13T08:18:41.021Z",
+    "data": [
+      {
+        "accountId": "430693",
+        "bank_name": "Flagstar Bank",
+        "apy": 4.1,
+        "min_deposit": "$2.5k",
+        "account_name": "6 Month CD Special - NewMoney"
+      },
+      {
+        "accountId": "432661",
+        "bank_name": "Flagstar Bank",
+        "apy": 3.95,
+        "min_deposit": "$500",
+        "account_name": "12 Month CD Special - New Money"
+      },
+      {
+        "accountId": "368152",
+        "bank_name": "Flagstar Bank",
+        "apy": 3.8,
+        "min_deposit": "$500",
+        "account_name": "24 Month CD Special - New Money"
+      }
+    ]
   }
 ]
