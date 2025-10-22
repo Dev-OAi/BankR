@@ -8435,5 +8435,129 @@
         "account_name": "14 Month No Penalty CD Via Raisin"
       }
     ]
+  },
+  {
+    "date": "2025-10-22T08:19:18.100Z",
+    "data": [
+      {
+        "accountId": "330403",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 4.1,
+        "min_deposit": "$2.5k",
+        "account_name": "15 Month CD"
+      },
+      {
+        "accountId": "29149",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 4,
+        "min_deposit": "$2.5k",
+        "account_name": "12 Month CD"
+      },
+      {
+        "accountId": "330402",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.95,
+        "min_deposit": "$2.5k",
+        "account_name": "13 Month CD"
+      },
+      {
+        "accountId": "29150",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.9,
+        "min_deposit": "$2.5k",
+        "account_name": "36 Month CD"
+      },
+      {
+        "accountId": "29151",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.9,
+        "min_deposit": "$2.5k",
+        "account_name": "60 Month CD"
+      },
+      {
+        "accountId": "330399",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.9,
+        "min_deposit": "$2.5k",
+        "account_name": "6 Month CD"
+      },
+      {
+        "accountId": "330400",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.9,
+        "min_deposit": "$2.5k",
+        "account_name": "9 Month CD"
+      },
+      {
+        "accountId": "330401",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.9,
+        "min_deposit": "$2.5k",
+        "account_name": "11 Month CD"
+      },
+      {
+        "accountId": "330404",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.8,
+        "min_deposit": "$2.5k",
+        "account_name": "18 Month CD"
+      },
+      {
+        "accountId": "330405",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.75,
+        "min_deposit": "$2.5k",
+        "account_name": "24 Month CD"
+      },
+      {
+        "accountId": "330406",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.7,
+        "min_deposit": "$2.5k",
+        "account_name": "30 Month CD"
+      },
+      {
+        "accountId": "395092",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.65,
+        "min_deposit": "$1",
+        "account_name": "10 Month High-Yield CD Via Raisin"
+      },
+      {
+        "accountId": "395093",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.65,
+        "min_deposit": "$1",
+        "account_name": "14 Month High-Yield CD Via Raisin"
+      },
+      {
+        "accountId": "434472",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.65,
+        "min_deposit": "$1",
+        "account_name": "27 Month High Yield CD Via Raisin"
+      },
+      {
+        "accountId": "435521",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.65,
+        "min_deposit": "$1",
+        "account_name": "19 Month High Yield CD Via Raisin"
+      },
+      {
+        "accountId": "408379",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.3,
+        "min_deposit": "$1",
+        "account_name": "10 Month No Penalty CD Via Raisin"
+      },
+      {
+        "accountId": "408380",
+        "bank_name": "Sallie Mae Bank",
+        "apy": 3.3,
+        "min_deposit": "$1",
+        "account_name": "14 Month No Penalty CD Via Raisin"
+      }
+    ]
   }
 ]
