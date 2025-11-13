@@ -12967,5 +12967,150 @@
         "account_name": "3 Month Online CD - New Money"
       }
     ]
+  },
+  {
+    "date": "2025-11-13T08:17:45.752Z",
+    "data": [
+      {
+        "accountId": "303039",
+        "bank_name": "Amerant Bank",
+        "apy": 4,
+        "min_deposit": "$10k",
+        "account_name": "6 Month Promotional CD - New Money"
+      },
+      {
+        "accountId": "393758",
+        "bank_name": "Amerant Bank",
+        "apy": 4,
+        "min_deposit": "$500",
+        "account_name": "6 Month Promotional Online CD - New Money"
+      },
+      {
+        "accountId": "393761",
+        "bank_name": "Amerant Bank",
+        "apy": 3.75,
+        "min_deposit": "$500",
+        "account_name": "12 Month Promotional Online CD - New Money"
+      },
+      {
+        "accountId": "406221",
+        "bank_name": "Amerant Bank",
+        "apy": 3.75,
+        "min_deposit": "$10k",
+        "account_name": "12 Month Promotional CD - New Money"
+      },
+      {
+        "accountId": "368102",
+        "bank_name": "Amerant Bank",
+        "apy": 3.5,
+        "min_deposit": "$10k",
+        "account_name": "36 Month Promotional CD - New Money"
+      },
+      {
+        "accountId": "393768",
+        "bank_name": "Amerant Bank",
+        "apy": 3.5,
+        "min_deposit": "$500",
+        "account_name": "36 Month Promotional Online CD - New Money"
+      },
+      {
+        "accountId": "345878",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "18 Month Online CD - New Money"
+      },
+      {
+        "accountId": "406184",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "9 Month CD - New Money"
+      },
+      {
+        "accountId": "406185",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "9 Month Online CD - New Money"
+      },
+      {
+        "accountId": "406189",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "15 Month CD - New Money"
+      },
+      {
+        "accountId": "406190",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "15 Month Online CD - New Money"
+      },
+      {
+        "accountId": "406192",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "24 Month CD - New Money"
+      },
+      {
+        "accountId": "406193",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "24 Month Online CD - New Money"
+      },
+      {
+        "accountId": "406198",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "48 Month CD - New Money"
+      },
+      {
+        "accountId": "406199",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "48 Month Online CD - New Money"
+      },
+      {
+        "accountId": "406201",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "60 Month CD - New Money"
+      },
+      {
+        "accountId": "406202",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$500",
+        "account_name": "60 Month Online CD - New Money"
+      },
+      {
+        "accountId": "426856",
+        "bank_name": "Amerant Bank",
+        "apy": 3.25,
+        "min_deposit": "$10k",
+        "account_name": "18 Month CD - New Money"
+      },
+      {
+        "accountId": "406180",
+        "bank_name": "Amerant Bank",
+        "apy": 3,
+        "min_deposit": "$10k",
+        "account_name": "3 Month CD - New Money"
+      },
+      {
+        "accountId": "406181",
+        "bank_name": "Amerant Bank",
+        "apy": 3,
+        "min_deposit": "$500",
+        "account_name": "3 Month Online CD - New Money"
+      }
+    ]
   }
 ]
