@@ -156126,5 +156126,892 @@
         "account_name": "Business 14 Month CD-Standard"
       }
     ]
+  },
+  {
+    "date": "2025-12-13T08:16:16.856Z",
+    "data": [
+      {
+        "accountId": "43772",
+        "bank_name": "Chase",
+        "apy": 4,
+        "min_deposit": "$100k*",
+        "account_name": "3 Month CD - Relationship"
+      },
+      {
+        "accountId": "400186",
+        "bank_name": "Chase",
+        "apy": 4,
+        "min_deposit": "$100k*",
+        "account_name": "Business 3 Month CD - Relationship"
+      },
+      {
+        "accountId": "430282",
+        "bank_name": "Chase",
+        "apy": 3.15,
+        "min_deposit": "$100k*",
+        "account_name": "10 Month CD - Relationship"
+      },
+      {
+        "accountId": "430284",
+        "bank_name": "Chase",
+        "apy": 3.15,
+        "min_deposit": "$100k*",
+        "account_name": "Business 10 Month CD - Relationship"
+      },
+      {
+        "accountId": "43777",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "24 Month CD - Relationship"
+      },
+      {
+        "accountId": "43778",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "30 Month CD - Relationship"
+      },
+      {
+        "accountId": "43780",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "48 Month CD - Relationship"
+      },
+      {
+        "accountId": "43781",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "60 Month CD - Relationship"
+      },
+      {
+        "accountId": "43782",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$0",
+        "account_name": "84 Month CD - Relationship"
+      },
+      {
+        "accountId": "267091",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "21 Month CD - Relationship"
+      },
+      {
+        "accountId": "267112",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "36 Month CD - Relationship"
+      },
+      {
+        "accountId": "289168",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "15 Month CD - Relationship"
+      },
+      {
+        "accountId": "310088",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "18 Month CD-Relationship"
+      },
+      {
+        "accountId": "310096",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "120 Month CD-Relationship"
+      },
+      {
+        "accountId": "351791",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "42 Month CD - Relationship"
+      },
+      {
+        "accountId": "400194",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 15 Month CD - Relationship"
+      },
+      {
+        "accountId": "400196",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 18 Month CD-Relationship"
+      },
+      {
+        "accountId": "400198",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 21 Month CD - Relationship"
+      },
+      {
+        "accountId": "400200",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 24 Month CD - Relationship"
+      },
+      {
+        "accountId": "400202",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 30 Month CD - Relationship"
+      },
+      {
+        "accountId": "400204",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 36 Month CD - Relationship"
+      },
+      {
+        "accountId": "400206",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 42 Month CD - Relationship"
+      },
+      {
+        "accountId": "400208",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 48 Month CD - Relationship"
+      },
+      {
+        "accountId": "400210",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 84 Month CD - Relationship"
+      },
+      {
+        "accountId": "430266",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "4 Month CD - Relationship"
+      },
+      {
+        "accountId": "430268",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 4 Month CD - Relationship"
+      },
+      {
+        "accountId": "430299",
+        "bank_name": "Chase",
+        "apy": 2,
+        "min_deposit": "$1k",
+        "account_name": "Business 120 Month CD - Relationship"
+      },
+      {
+        "accountId": "43775",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "12 Month CD - Relationship"
+      },
+      {
+        "accountId": "400192",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 12 Month CD - Relationship"
+      },
+      {
+        "accountId": "430290",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "13 Month CD - Relationship"
+      },
+      {
+        "accountId": "430292",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 13 Month CD - Relationship"
+      },
+      {
+        "accountId": "430294",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "14 Month CD-Relationship"
+      },
+      {
+        "accountId": "430296",
+        "bank_name": "Chase",
+        "apy": 1.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 14 Month CD-Relationship"
+      },
+      {
+        "accountId": "430270",
+        "bank_name": "Chase",
+        "apy": 1.5,
+        "min_deposit": "$1k",
+        "account_name": "5 Month CD - Relationship"
+      },
+      {
+        "accountId": "430272",
+        "bank_name": "Chase",
+        "apy": 1.5,
+        "min_deposit": "$1k",
+        "account_name": "Business 5 Month CD - Relationship"
+      },
+      {
+        "accountId": "43771",
+        "bank_name": "Chase",
+        "apy": 1.01,
+        "min_deposit": "$1k",
+        "account_name": "2 Month CD - Relationship"
+      },
+      {
+        "accountId": "403268",
+        "bank_name": "Chase",
+        "apy": 1.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 2 Month CD - Relationship"
+      },
+      {
+        "accountId": "43773",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "6 Month CD - Relationship"
+      },
+      {
+        "accountId": "400188",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 6 Month CD - Relationship"
+      },
+      {
+        "accountId": "430274",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "7 Month CD - Relationship"
+      },
+      {
+        "accountId": "430276",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 7 Month CD - Relationship"
+      },
+      {
+        "accountId": "430278",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "8 Month CD - Relationship"
+      },
+      {
+        "accountId": "430280",
+        "bank_name": "Chase",
+        "apy": 0.75,
+        "min_deposit": "$1k",
+        "account_name": "Business 8 Month CD - Relationship"
+      },
+      {
+        "accountId": "43774",
+        "bank_name": "Chase",
+        "apy": 0.5,
+        "min_deposit": "$1k",
+        "account_name": "9 Month CD - Relationship"
+      },
+      {
+        "accountId": "400190",
+        "bank_name": "Chase",
+        "apy": 0.5,
+        "min_deposit": "$1k",
+        "account_name": "Business 9 Month CD - Relationship"
+      },
+      {
+        "accountId": "430286",
+        "bank_name": "Chase",
+        "apy": 0.5,
+        "min_deposit": "$1k",
+        "account_name": "11 Month CD - Relationship"
+      },
+      {
+        "accountId": "430288",
+        "bank_name": "Chase",
+        "apy": 0.5,
+        "min_deposit": "$1k",
+        "account_name": "Business 11 Month CD - Relationship"
+      },
+      {
+        "accountId": "400216",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "6 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400217",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "9 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400218",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "12 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400224",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "Business 6 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400225",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "Business 9 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400226",
+        "bank_name": "Chase",
+        "apy": 0.05,
+        "min_deposit": "$10k*",
+        "account_name": "Business 12 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "43770",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "1 Month CD - Relationship"
+      },
+      {
+        "accountId": "400184",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "Business 1 Month CD - Relationship"
+      },
+      {
+        "accountId": "400212",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "1 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400213",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "2 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400214",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "3 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400215",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "4 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400220",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "Business 1 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400221",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "Business 2 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400222",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "Business 3 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "400223",
+        "bank_name": "Chase",
+        "apy": 0.02,
+        "min_deposit": "$1k",
+        "account_name": "Business 4 Month Ladder CD - Relationship"
+      },
+      {
+        "accountId": "43783",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "1 Month CD - Standard"
+      },
+      {
+        "accountId": "43784",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "2 Month CD - Standard"
+      },
+      {
+        "accountId": "43785",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "3 Month CD - Standard"
+      },
+      {
+        "accountId": "43786",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "6 Month CD - Standard"
+      },
+      {
+        "accountId": "43787",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "9 Month CD - Standard"
+      },
+      {
+        "accountId": "43788",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "12 Month CD - Standard"
+      },
+      {
+        "accountId": "43790",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "24 Month CD - Standard"
+      },
+      {
+        "accountId": "43791",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "30 Month CD - Standard"
+      },
+      {
+        "accountId": "43793",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "48 Month CD - Standard"
+      },
+      {
+        "accountId": "43794",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "60 Month CD - Standard"
+      },
+      {
+        "accountId": "43795",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$0",
+        "account_name": "84 Month CD - Standard"
+      },
+      {
+        "accountId": "251597",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 120 Month CD - Standard"
+      },
+      {
+        "accountId": "267104",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "21 Month CD - Standard"
+      },
+      {
+        "accountId": "267120",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "36 Month CD - Standard"
+      },
+      {
+        "accountId": "289170",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "15 Month CD - Standard"
+      },
+      {
+        "accountId": "310090",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "18 Month CD-Standard"
+      },
+      {
+        "accountId": "310098",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "120 Month CD-Standard"
+      },
+      {
+        "accountId": "351792",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "42 Month CD - Standard"
+      },
+      {
+        "accountId": "400185",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 1 Month CD - Standard"
+      },
+      {
+        "accountId": "400187",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 3 Month CD - Standard"
+      },
+      {
+        "accountId": "400189",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 6 Month CD - Standard"
+      },
+      {
+        "accountId": "400191",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 9 Month CD - Standard"
+      },
+      {
+        "accountId": "400193",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 12 Month CD - Standard"
+      },
+      {
+        "accountId": "400195",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 15 Month CD - Standard"
+      },
+      {
+        "accountId": "400197",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 18 Month CD-Standard"
+      },
+      {
+        "accountId": "400199",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 21 Month CD - Standard"
+      },
+      {
+        "accountId": "400201",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 24 Month CD - Standard"
+      },
+      {
+        "accountId": "400203",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 30 Month CD - Standard"
+      },
+      {
+        "accountId": "400205",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 36 Month CD - Standard"
+      },
+      {
+        "accountId": "400207",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 42 Month CD - Standard"
+      },
+      {
+        "accountId": "400209",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 48 Month CD - Standard"
+      },
+      {
+        "accountId": "400211",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 84 Month CD - Standard"
+      },
+      {
+        "accountId": "400227",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "1 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400228",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "2 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400229",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "3 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400230",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "4 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400231",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "6 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400232",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "9 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400233",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "12 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400234",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 1 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400235",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 2 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400236",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 3 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400237",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 4 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400238",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 6 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400239",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 9 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "400240",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 12 Month Ladder CD - Standard"
+      },
+      {
+        "accountId": "403269",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 2 Month CD - Standard"
+      },
+      {
+        "accountId": "430267",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "4 Month CD - Standard"
+      },
+      {
+        "accountId": "430269",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 4 Month CD - Standard"
+      },
+      {
+        "accountId": "430271",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "5 Month CD - Standard"
+      },
+      {
+        "accountId": "430273",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 5 Month CD - Standard"
+      },
+      {
+        "accountId": "430275",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "7 Month CD - Standard"
+      },
+      {
+        "accountId": "430277",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 7 Month CD - Standard"
+      },
+      {
+        "accountId": "430279",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "8 Month CD - Standard"
+      },
+      {
+        "accountId": "430281",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 8 Month CD - Standard"
+      },
+      {
+        "accountId": "430283",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "10 Month CD - Standard"
+      },
+      {
+        "accountId": "430285",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 10 Month CD - Standard"
+      },
+      {
+        "accountId": "430287",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "11 Month CD - Standard"
+      },
+      {
+        "accountId": "430289",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 11 Month CD - Standard"
+      },
+      {
+        "accountId": "430291",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "13 Month CD - Standard"
+      },
+      {
+        "accountId": "430293",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 13 Month CD - Standard"
+      },
+      {
+        "accountId": "430295",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "14 Month CD-Standard"
+      },
+      {
+        "accountId": "430297",
+        "bank_name": "Chase",
+        "apy": 0.01,
+        "min_deposit": "$1k",
+        "account_name": "Business 14 Month CD-Standard"
+      }
+    ]
   }
 ]
